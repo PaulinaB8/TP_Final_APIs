@@ -26,5 +26,47 @@ namespace TP_Final_APIs.Repositories.Implementations
         {
             return _context.Where(x => x.HappyHour == true).ToList();
         }
+
+        public void createProduct(Product newProduct)
+        {
+            _context.Add(newProduct);
+        }
+        public void deleteProduct(int idProduct)
+        {
+            _context.Remove(getProduct(idProduct));
+        }
+        public void updateProduct(Product updatedProduct, int idProduct)
+        {
+            
+        }
+        public string changeDiscount(double discount, int idProduct)
+        {
+            var productToChange = getProduct(idProduct);
+            if (productToChange.Discount == true)
+            {
+                productToChange.Discount = false;
+                return "El descuento se desactivó";
+            }
+            else
+            {
+                productToChange.Discount = true;
+                return "El descuento se desactivó";
+            }
+            
+        }
+        public string applyHappyHour(int idProduct)
+        {
+            var productToChange = getProduct(idProduct);
+            if (productToChange.HappyHour == true)
+            {
+                productToChange.HappyHour = false;
+                return "El Happy Hour se desactivó";
+            }
+            else
+            {
+                productToChange.HappyHour = true;
+                return "El Happy Hour se activó ";
+            }
+        }
     }
 }
