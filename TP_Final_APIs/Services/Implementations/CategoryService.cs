@@ -30,10 +30,18 @@ namespace TP_Final_APIs.Services.Implementations
             _categoryRepository.deleteCategory(idCategory);
         }
 
-        public IEnumerable<CategoryDto> getCategories(int idUser)
+        public IEnumerable<CategoryDto> getCategories(int id)
         {
+            var category = _categoryRepository.getCategories(id);
 
-            
+            CategoryDto categoryToReturn = new CategoryDto()
+            {
+                Name = category.Name,
+                Products = category.Products
+            };
+
+            return categoryToReturn;
+
         }
 
         public void updateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory)
