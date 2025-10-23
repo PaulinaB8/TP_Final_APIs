@@ -2,5 +2,6 @@
 {
     public interface IUserService
     {
+        IEnumerable<UserDto> getAllRestaurants();
     }
 }
