@@ -2,11 +2,11 @@
 
 public class User
 {
-    public int id {  get; set; }
-    public string name { get; set; }
-    public string password {  get; set; }
-    public string mail {  get; set; }
-    public bool status { get; set; }
-    public string phone {  get; set; }
-    public int idRestaurant { get; set; }
+    public int Id {  get; set; }
+    public string Name { get; set; }
+    public string Password {  get; set; }
+    public string Mail {  get; set; }
+    public bool Status { get; set; }
+    public string Phone {  get; set; }
+    public int IdRestaurant { get; set; }
 }
