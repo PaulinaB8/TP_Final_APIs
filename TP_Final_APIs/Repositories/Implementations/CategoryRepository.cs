@@ -22,14 +22,13 @@ namespace TP_Final_APIs.Repositories.Implementations
             }
         }
 
-        public IEnumerable<Category> getCategory(int idUser)
+        public IEnumerable<Category> getCategories(int idUser)
         {
             return _context.Where(c => c.Id == idUser);
         }
 
         public void updateCategory(Category updatedCategory, int idCategory)
-        {
-            
+        { 
 
         }
     }
