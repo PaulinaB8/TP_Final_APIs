@@ -5,7 +5,7 @@ namespace TP_Final_APIs.Services.Interfaces
 {
     public interface ICategoryService
     {
-        IEnumerable<CategoryDto> getMenu(int idRestaurant);
+        IEnumerable<CategoryDto> getCategories(int idRestaurant);
         void createCategory(CreateAndUpdateCategoryDto newCategory);
         void deleteCategory(int idCategory);
         void updateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory);
