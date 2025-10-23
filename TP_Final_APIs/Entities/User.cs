@@ -7,6 +7,7 @@ public class User
     public string Password {  get; set; }
     public string Mail {  get; set; }
     public bool Status { get; set; }
-    public string Phone {  get; set; }
-    public int IdRestaurant { get; set; }
+    public string Phone { get; set; }
+
+    public IEnumerable<Category> Categories { get; set; }
 }

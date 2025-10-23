@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int IdProducts { get; set; }
+        public IEnumerable<Product> products { get; set; }
     }
 }
