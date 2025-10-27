@@ -8,7 +8,7 @@ namespace TP_Final_APIs.Repositories.Implementations
         List<Product> _context = new List<Product>();
         public IEnumerable<Product> GetProductsByCategory(int idCategory)
         {
-            return _context.Where(x => x.IdCaterogies ==idCategory).ToList();
+            return _context.Where(x => x.IdCategory == idCategory).ToList();
         }
         public Product GetProduct(int idProduct)
         {

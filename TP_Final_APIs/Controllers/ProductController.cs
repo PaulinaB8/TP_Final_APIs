@@ -23,9 +23,8 @@ public class ProductController : ControllerBase
 
 
 
-    [HttpGet]
-    [Route("{idCategory}")]
-    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory(int idCategory)
+    [HttpGet("{idCategory}")]
+    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromRoute]int idCategory)
     {
         var response=_productService.GetProductsByCategory(idCategory);
         if (response == null)
@@ -37,9 +36,8 @@ public class ProductController : ControllerBase
 
 
 
-    [HttpGet]
-    [Route("{idProduct}")]
-    public ActionResult<ProductDto> GetProduct(int idProduct)
+    [HttpGet("{idProduct}")]
+    public ActionResult<ProductDto> GetProduct([FromRoute]int idProduct)
     {
         var response = _productService.GetProduct(idProduct);
         if (response == null)
@@ -86,48 +84,43 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpPost]
-    [Route("{idCategory}")]
+    [HttpPost("{idCategory}")]
 
-    public ActionResult CreateProduct([FromBody]CreateAndUpdateProductDto newProduct, int idCategory)
+    public ActionResult CreateProduct([FromBody]CreateAndUpdateProductDto newProduct, [FromRoute]int idCategory)
     {
         _productService.CreateProduct(newProduct, idCategory);
-        return Ok();
+        return Ok("Producto creado");
 
     }
 
-    [HttpDelete]
-    [Route("{idProduct}")]
-    public ActionResult DeleteProduct(int idProduct)
+    [HttpDelete("{idProduct}")]
+    public ActionResult DeleteProduct([FromRoute] int idProduct)
     {
         _productService.DeleteProduct(idProduct);
-        return Ok();
+        return Ok("Producto eliminado");
     }
 
-    [HttpPut]
-    [Route("{idProduct}")]
-    public ActionResult UpdateProduct([FromBody]CreateAndUpdateProductDto updatedProduct, int idProduct)
+    [HttpPut("{idProduct}")]
+    public ActionResult UpdateProduct([FromBody]CreateAndUpdateProductDto updatedProduct, [FromRoute]int idProduct)
     {
         _productService.UpdateProduct(updatedProduct, idProduct);
-        return Ok();
+        return Ok("Producto editado");
     }
 
-    [HttpPut]
-    [Route("{idProduct}")]
-    public ActionResult ChangeDiscount([FromQuery]double discount, int idProduct)
+    [HttpPut("discount/{idProduct}")]
+
+    public ActionResult ChangeDiscount([FromQuery]double discount, [FromRoute] int idProduct)
     {
         _productService.ChangeDiscount(discount, idProduct);
-        return Ok();
+        return Ok("Se cambió el descuento");
     }
 
 
-    [HttpPut]
-    [Route("{idProduct}")]
-    public ActionResult<string> ApplyHappyHour(int idProduct)
+    [HttpPut("{idProduct}")]
+    public ActionResult<string> ApplyHappyHour([FromRoute]int idProduct)
     {
         var response =_productService.ApplyHappyHour(idProduct);
         return Ok(response);
     }
-
 
 }

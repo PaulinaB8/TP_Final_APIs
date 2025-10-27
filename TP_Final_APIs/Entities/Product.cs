@@ -16,9 +16,9 @@ namespace TP_Final_APIs.Entities
         public bool HappyHour { get; set; } = false;
         public bool Favourite { get; set; } = false;
 
-        [ForeignKey("IdCategories")]
+        [ForeignKey("IdCategory")]
         public Category Category { get; set; }
-        public int IdCaterogies { get; set; }
+        public int IdCategory { get; set; }
 
     }
 }
