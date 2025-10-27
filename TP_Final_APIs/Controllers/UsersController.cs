@@ -35,7 +35,7 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpPut("{idUser}")]
-        public IActionResult UpdateUser(CreateAndUpdateUserDto userDto, int idUser)
+        public IActionResult UpdateUser(CreateAndUpdateUserDto userDto, [FromRoute]int idUser)
         {
             if (userDto is null)
             {
@@ -52,7 +52,7 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpDelete("{idUser}")]
-        public IActionResult DeleteUser(int idUser)
+        public IActionResult DeleteUser([FromRoute]int idUser)
         {
             if (_userService.CheckIfUserExists(idUser) == false)
             {
