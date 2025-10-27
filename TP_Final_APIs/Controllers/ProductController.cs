@@ -87,6 +87,8 @@ public class ProductController : ControllerBase
 
 
     [HttpPost]
+    [Route("{idCategory}")]
+
     public ActionResult CreateProduct([FromBody]CreateAndUpdateProductDto newProduct, int idCategory)
     {
         _productService.CreateProduct(newProduct, idCategory);
@@ -103,6 +105,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut]
+    [Route("{idProduct}")]
     public ActionResult UpdateProduct([FromBody]CreateAndUpdateProductDto updatedProduct, int idProduct)
     {
         _productService.UpdateProduct(updatedProduct, idProduct);
@@ -111,7 +114,7 @@ public class ProductController : ControllerBase
 
     [HttpPut]
     [Route("{idProduct}")]
-    public ActionResult ChangeDiscount(double discount, int idProduct)
+    public ActionResult ChangeDiscount([FromQuery]double discount, int idProduct)
     {
         _productService.ChangeDiscount(discount, idProduct);
         return Ok();

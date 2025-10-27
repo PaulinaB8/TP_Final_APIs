@@ -20,8 +20,10 @@ namespace TP_Final_APIs.Repositories.Implementations
         }
         public IEnumerable<Product> GetDiscountProducts()
         {
-            return _context.Where(x => x.Discount == true).ToList();
+            return _context.Where(x => x.Discount > 0).ToList();
         }
+
+
         public IEnumerable<Product> GetHappyHourProducts()
         {
             return _context.Where(x => x.HappyHour == true).ToList();
@@ -35,25 +37,20 @@ namespace TP_Final_APIs.Repositories.Implementations
         {
             _context.Remove(GetProduct(idProduct));
         }
+
+
         public void UpdateProduct(Product updatedProduct, int idProduct)
         {
             
         }
-        public string ChangeDiscount(double discount, int idProduct)
+
+
+        public void ChangeDiscount(double discount, int idProduct)
         {
             var productToChange = GetProduct(idProduct);
-            if (productToChange.Discount == true)
-            {
-                productToChange.Discount = false;
-                return "El descuento se desactivó";
-            }
-            else
-            {
-                productToChange.Discount = true;
-                return "El descuento se desactivó";
-            }
-            
+            productToChange.Discount = discount;
         }
+
         public string ApplyHappyHour(int idProduct)
         {
             var productToChange = GetProduct(idProduct);

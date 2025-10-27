@@ -12,7 +12,7 @@ namespace TP_Final_APIs.Repositories.Interfaces
         public void CreateProduct(Product newProduct);
         public void DeleteProduct(int idProduct);
         public void UpdateProduct(Product updatedProduct, int idProduct);
-        public string ChangeDiscount(double discount, int idProduct);
+        public void ChangeDiscount(double discount, int idProduct);
         public string ApplyHappyHour(int idProduct);
     }
 }
