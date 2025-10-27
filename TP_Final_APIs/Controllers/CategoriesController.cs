@@ -44,7 +44,7 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteCategory(int id)
+        public IActionResult DeleteCategory([FromRoute]int id)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace TP_Final_APIs.Controllers
             return NoContent();
         }
 
-        [HttpPost]
+        [HttpPut]
         public IActionResult UpdateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory)
         {
             if (updatedCategory == null)

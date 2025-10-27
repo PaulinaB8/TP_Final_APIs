@@ -27,6 +27,11 @@ namespace TP_Final_APIs.Repositories.Implementations
             return _context.Where(c => c.Id == idUser);
         }
 
+        public bool CheckIfCategoryExists(int idCategory)
+        {
+            var categoryExistence = _context.Any(user => user.Id == idCategory);
+            return categoryExistence;
+        }
         public void UpdateCategory(Category updatedCategory, int idCategory)
         { 
 
