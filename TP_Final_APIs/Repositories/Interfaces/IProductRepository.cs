@@ -4,15 +4,15 @@ namespace TP_Final_APIs.Repositories.Interfaces
 {
     public interface IProductRepository
     {
-        public IEnumerable<Product> getProductsByCategory(int idCategory);
-        public Product getProduct(int idProduct);
-        public IEnumerable<Product> getFavouriteProducts();
-        public IEnumerable<Product> getDiscountProducts();
-        public IEnumerable<Product> getHappyHourProducts();
-        public void createProduct(Product newProduct);
-        public void deleteProduct(int idProduct);
-        public void updateProduct(Product updatedProduct, int idProduct);
-        public string changeDiscount(double discount, int idProduct);
-        public string applyHappyHour(int idProduct);
+        public IEnumerable<Product> GetProductsByCategory(int idCategory);
+        public Product GetProduct(int idProduct);
+        public IEnumerable<Product> GetFavouriteProducts();
+        public IEnumerable<Product> GetDiscountProducts();
+        public IEnumerable<Product> GetHappyHourProducts();
+        public void CreateProduct(Product newProduct);
+        public void DeleteProduct(int idProduct);
+        public void UpdateProduct(Product updatedProduct, int idProduct);
+        public string ChangeDiscount(double discount, int idProduct);
+        public string ApplyHappyHour(int idProduct);
     }
 }

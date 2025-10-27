@@ -14,9 +14,9 @@ namespace TP_Final_APIs.Services.Implementations
             _productRepository = productRepository;
         }
         private readonly IProductRepository _productRepository;
-        public IEnumerable<ProductDto> getProductsByCategory(int idCategory)
+        public IEnumerable<ProductDto> GetProductsByCategory(int idCategory)
         {
-            var products = _productRepository.getProductsByCategory(idCategory);
+            var products = _productRepository.GetProductsByCategory(idCategory);
             IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
             {
                 Name = p.Name,
@@ -29,9 +29,9 @@ namespace TP_Final_APIs.Services.Implementations
             }).ToList();
             return miEnumerable;
         }
-        public ProductDto getProduct(int idProduct)
+        public ProductDto GetProduct(int idProduct)
         {
-            var product = _productRepository.getProduct(idProduct);
+            var product = _productRepository.GetProduct(idProduct);
             ProductDto productToReturn = new ProductDto()
             {
                 Name = product.Name,
@@ -45,9 +45,9 @@ namespace TP_Final_APIs.Services.Implementations
             return productToReturn;
 
         }
-        public IEnumerable<ProductDto> getFavouriteProducts()
+        public IEnumerable<ProductDto> GetFavouriteProducts()
         {
-            var products = _productRepository.getFavouriteProducts();
+            var products = _productRepository.GetFavouriteProducts();
             IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
             {
                 Name = p.Name,
@@ -60,9 +60,9 @@ namespace TP_Final_APIs.Services.Implementations
             }).ToList();
             return miEnumerable;
         }
-        public IEnumerable<ProductDto> getDiscountProducts()
+        public IEnumerable<ProductDto> GetDiscountProducts()
         {
-            var products = _productRepository.getDiscountProducts();
+            var products = _productRepository.GetDiscountProducts();
             IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
             {
                 Name = p.Name,
@@ -75,9 +75,9 @@ namespace TP_Final_APIs.Services.Implementations
             }).ToList();
             return miEnumerable;
         }
-        public IEnumerable<ProductDto> getHappyHourProducts()
+        public IEnumerable<ProductDto> GetHappyHourProducts()
         {
-            var products = _productRepository.getHappyHourProducts();
+            var products = _productRepository.GetHappyHourProducts();
             IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
             {
                 Name = p.Name,
@@ -91,7 +91,7 @@ namespace TP_Final_APIs.Services.Implementations
             return miEnumerable;
         }
 
-        public void createProduct(CreateAndUpdateProductDto newProduct, int idCategory)
+        public void CreateProduct(CreateAndUpdateProductDto newProduct, int idCategory)
         {
             Product newProductToCreate = new Product()
             {
@@ -103,17 +103,17 @@ namespace TP_Final_APIs.Services.Implementations
                 Favourite = newProduct.Favourite,
                 IdCaterogies = newProduct.IdCaterogies,
             };
-            _productRepository.createProduct(newProductToCreate);
+            _productRepository.CreateProduct(newProductToCreate);
         }
-        public void deleteProduct(int idProduct)
+        public void DeleteProduct(int idProduct)
         {
-            var product = _productRepository.getProduct(idProduct);
+            var product = _productRepository.GetProduct(idProduct);
             if (product != null)
             {
-                _productRepository.deleteProduct(idProduct);
+                _productRepository.DeleteProduct(idProduct);
             }
         }
-        public void updateProduct(CreateAndUpdateProductDto updatedProduct, int idProduct)
+        public void UpdateProduct(CreateAndUpdateProductDto updatedProduct, int idProduct)
         {
             Product product = new Product()
             {
@@ -125,15 +125,15 @@ namespace TP_Final_APIs.Services.Implementations
                 Favourite = updatedProduct.Favourite,
                 IdCaterogies = updatedProduct.IdCaterogies,
             };
-            _productRepository.updateProduct(product, idProduct);
+            _productRepository.UpdateProduct(product, idProduct);
         }
-        public void changeDiscount(double discount, int idProduct)
+        public void ChangeDiscount(double discount, int idProduct)
         {
-            _productRepository.changeDiscount(discount,idProduct);
+            _productRepository.ChangeDiscount(discount,idProduct);
         }
-        public string applyHappyHour(int idProduct)
+        public string ApplyHappyHour(int idProduct)
         {
-            string response =_productRepository.applyHappyHour(idProduct);
+            string response =_productRepository.ApplyHappyHour(idProduct);
             return response;
         }
     }

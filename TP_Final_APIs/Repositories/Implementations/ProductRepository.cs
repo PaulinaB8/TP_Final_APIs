@@ -6,42 +6,42 @@ namespace TP_Final_APIs.Repositories.Implementations
     public class ProductRepository : IProductRepository
     {
         List<Product> _context = new List<Product>();
-        public IEnumerable<Product> getProductsByCategory(int idCategory)
+        public IEnumerable<Product> GetProductsByCategory(int idCategory)
         {
             return _context.Where(x => x.IdCaterogies ==idCategory).ToList();
         }
-        public Product getProduct(int idProduct)
+        public Product GetProduct(int idProduct)
         {
             return _context.FirstOrDefault(x => x.Id == idProduct);
         }
-        public IEnumerable<Product> getFavouriteProducts()
+        public IEnumerable<Product> GetFavouriteProducts()
         {
             return _context.Where(x => x.Favourite == true).ToList();
         }
-        public IEnumerable<Product> getDiscountProducts()
+        public IEnumerable<Product> GetDiscountProducts()
         {
             return _context.Where(x => x.Discount == true).ToList();
         }
-        public IEnumerable<Product> getHappyHourProducts()
+        public IEnumerable<Product> GetHappyHourProducts()
         {
             return _context.Where(x => x.HappyHour == true).ToList();
         }
 
-        public void createProduct(Product newProduct)
+        public void CreateProduct(Product newProduct)
         {
             _context.Add(newProduct);
         }
-        public void deleteProduct(int idProduct)
+        public void DeleteProduct(int idProduct)
         {
-            _context.Remove(getProduct(idProduct));
+            _context.Remove(GetProduct(idProduct));
         }
-        public void updateProduct(Product updatedProduct, int idProduct)
+        public void UpdateProduct(Product updatedProduct, int idProduct)
         {
             
         }
-        public string changeDiscount(double discount, int idProduct)
+        public string ChangeDiscount(double discount, int idProduct)
         {
-            var productToChange = getProduct(idProduct);
+            var productToChange = GetProduct(idProduct);
             if (productToChange.Discount == true)
             {
                 productToChange.Discount = false;
@@ -54,9 +54,9 @@ namespace TP_Final_APIs.Repositories.Implementations
             }
             
         }
-        public string applyHappyHour(int idProduct)
+        public string ApplyHappyHour(int idProduct)
         {
-            var productToChange = getProduct(idProduct);
+            var productToChange = GetProduct(idProduct);
             if (productToChange.HappyHour == true)
             {
                 productToChange.HappyHour = false;
