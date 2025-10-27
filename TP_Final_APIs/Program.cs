@@ -1,5 +1,7 @@
 using TP_Final_APIs.Repositories.Implementations;
 using TP_Final_APIs.Repositories.Interfaces;
+using TP_Final_APIs.Services.Implementations;
+using TP_Final_APIs.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+
 
 
 var app = builder.Build();
