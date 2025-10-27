@@ -8,26 +8,26 @@ namespace TP_Final_APIs.Repositories.Implementations
         public List<User> _context = new List<User>();
 
 
-        public void createRestaurant(User newRestaurant)
+        public void CreateRestaurant(User newRestaurant)
         {
             _context.Add(newRestaurant);
             //_context: SaveChanges();
             
         }
 
-        public void deleteUser(int idUser)
+        public void DeleteUser(int idUser)
         {
             var userDeleted = _context.FirstOrDefault(u => u.Id == idUser);
         }
 
-        public IEnumerable<User> getAllRestaurants()
+        public IEnumerable<User> GetAllRestaurants()
         {
             return _context;
         }
 
         
 
-        public void updateUser(User updatedUser, int idUser)
+        public void UpdateUser(User updatedUser, int idUser)
         {
             //User? user = _context.SingleOrDefault(user => user.Id == idUser);
 
@@ -36,6 +36,12 @@ namespace TP_Final_APIs.Repositories.Implementations
                 
             //}
             throw new NotImplementedException();
+        }
+
+        public bool CheckIfUserExists(int idUser)
+        {
+            var userExistence = _context.Any(user => user.Id == idUser);
+            return userExistence;
         }
     }
 }

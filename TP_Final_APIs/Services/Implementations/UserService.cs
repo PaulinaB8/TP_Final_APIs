@@ -15,7 +15,7 @@ namespace TP_Final_APIs.Services.Implementations
             _userRepository = userRepository;
         }
 
-        public UserDto createRestaurant(CreateAndUpdateUserDto newRestaurantDto)
+        public UserDto CreateRestaurant(CreateAndUpdateUserDto newRestaurantDto)
         {
             User user = new()
             {
@@ -27,7 +27,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Categories = newRestaurantDto.Categories,
             };
 
-            _userRepository.createRestaurant(user);
+            _userRepository.CreateRestaurant(user);
 
             UserDto userDto = new()
             {
@@ -42,14 +42,14 @@ namespace TP_Final_APIs.Services.Implementations
 
         }
 
-        public void deleteUser(int idUser)
+        public void DeleteUser(int idUser)
         {
-            _userRepository.deleteUser(idUser);
+            _userRepository.DeleteUser(idUser);
         }
 
-        public IEnumerable<UserDto> getAllRestaurants()
+        public IEnumerable<UserDto> GetAllRestaurants()
         {
-            var IEnumerable = _userRepository.getAllRestaurants().Select(user => new UserDto
+            var IEnumerable = _userRepository.GetAllRestaurants().Select(user => new UserDto
             {
                 Name = user.Name,
                 Password = user.Password,
@@ -61,7 +61,7 @@ namespace TP_Final_APIs.Services.Implementations
             return IEnumerable;
         }
 
-        public void updateUser(CreateAndUpdateUserDto updatedUserDto, int idUser)
+        public void UpdateUser(CreateAndUpdateUserDto updatedUserDto, int idUser)
         {
             User updatedUser = new User()
             {
@@ -73,8 +73,14 @@ namespace TP_Final_APIs.Services.Implementations
                 Categories = updatedUserDto.Categories,
             };
 
-            _userRepository.updateUser(updatedUser, idUser);
+            _userRepository.UpdateUser(updatedUser, idUser);
             
+        }
+
+        public bool CheckIfUserExists(int idUser)
+        {
+            var response = _userRepository.CheckIfUserExists(idUser);
+            return response;
         }
     }
 }

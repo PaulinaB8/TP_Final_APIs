@@ -5,10 +5,11 @@ namespace TP_Final_APIs.Services.Interfaces
 {
     public interface IUserService
     {
-        IEnumerable<UserDto> getAllRestaurants();
-        UserDto createRestaurant(CreateAndUpdateUserDto newRestaurantDto);
-        void deleteUser(int idUser);
-        void updateUser(CreateAndUpdateUserDto updatedUserDto, int idUser);
+        IEnumerable<UserDto> GetAllRestaurants();
+        UserDto CreateRestaurant(CreateAndUpdateUserDto newRestaurantDto);
+        void DeleteUser(int idUser);
+        void UpdateUser(CreateAndUpdateUserDto updatedUserDto, int idUser);
+        bool CheckIfUserExists(int idUser);
 
     }
 }
