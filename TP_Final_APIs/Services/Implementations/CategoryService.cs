@@ -1,4 +1,5 @@
-﻿using TP_Final_APIs.Entities;
+﻿using System.Xml.Linq;
+using TP_Final_APIs.Entities;
 using TP_Final_APIs.Models.DTOs.Requests;
 using TP_Final_APIs.Models.DTOs.Responses;
 using TP_Final_APIs.Repositories.Implementations;
@@ -14,7 +15,7 @@ namespace TP_Final_APIs.Services.Implementations
         {
             _categoryRepository = categoryRepository;
         }
-        public void createCategory(CreateAndUpdateCategoryDto newCategory)
+        public void CreateCategory(CreateAndUpdateCategoryDto newCategory)
         {
             var category = new Category
             {
@@ -22,29 +23,27 @@ namespace TP_Final_APIs.Services.Implementations
                 Products = newCategory.Products
             };
 
-            _categoryRepository.createCategory(category);
+            _categoryRepository.CreateCategory(category);
         }
 
-        public void deleteCategory(int idCategory)
+        public void DeleteCategory(int idCategory)
         {
-            _categoryRepository.deleteCategory(idCategory);
+            _categoryRepository.DeleteCategory(idCategory);
         }
 
-        public IEnumerable<CategoryDto> getCategories(int id)
+        public IEnumerable<CategoryDto> GetCategories(int idUser)
         {
-            var category = _categoryRepository.getCategories(id);
+            var category = _categoryRepository.GetCategories(idUser);
 
-            CategoryDto categoryToReturn = new CategoryDto()
+            IEnumerable<CategoryDto> categoryToReturn = category.Select(c => new CategoryDto()
             {
-                Name = category.Name,
-                Products = category.Products
-            };
-
-            return categoryToReturn;
-
+                Name = c.Name,
+                Products = c.Products,
+            }).ToList();
+            return categoryToReturn; 
         }
 
-        public void updateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory)
+        public void UpdateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory)
         {
             Category updatedCategoryDto = new Category()
             {
@@ -54,7 +53,7 @@ namespace TP_Final_APIs.Services.Implementations
                 
             };
 
-            _categoryRepository.updateCategory(updatedCategoryDto, idCategory);
+            _categoryRepository.UpdateCategory(updatedCategoryDto, idCategory);
         }
     }
 }

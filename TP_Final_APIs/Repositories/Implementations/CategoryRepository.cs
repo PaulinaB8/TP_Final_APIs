@@ -8,12 +8,12 @@ namespace TP_Final_APIs.Repositories.Implementations
 
     {
         List<Category> _context = new List<Category>();
-        public void createCategory(Category newCategory)
+        public void CreateCategory(Category newCategory)
         {
             _context.Add(newCategory);
         }
 
-        public void deleteCategory(int idCategory)
+        public void DeleteCategory(int idCategory)
         {
             var categoryToDelete = _context.FirstOrDefault(c => c.Id == idCategory);
             if (categoryToDelete != null)
@@ -22,12 +22,12 @@ namespace TP_Final_APIs.Repositories.Implementations
             }
         }
 
-        public IEnumerable<Category> getCategories(int idUser)
+        public IEnumerable<Category> GetCategories(int idUser)
         {
             return _context.Where(c => c.Id == idUser);
         }
 
-        public void updateCategory(Category updatedCategory, int idCategory)
+        public void UpdateCategory(Category updatedCategory, int idCategory)
         { 
 
         }

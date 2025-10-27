@@ -1,83 +1,77 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TP_Final_APIs.Entities;
+using TP_Final_APIs.Models.DTOs.Requests;
+using TP_Final_APIs.Models.DTOs.Responses;
+using TP_Final_APIs.Services.Implementations;
+using TP_Final_APIs.Services.Interfaces;
 
 namespace TP_Final_APIs.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CategoriesController : Controller
     {
-        // GET: CategoriesController
-        public ActionResult Index()
+        private readonly ICategoryService _categoryService;
+        public CategoriesController(ICategoryService categoryService)
         {
-            return View();
+            _categoryService = categoryService;
         }
 
-        // GET: CategoriesController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult<IEnumerable<CategoryDto>> GetCategories(int idUser)
         {
-            return View();
+            var response = _categoryService.GetCategories(idUser);
+
+            if (response == null)
+            {
+                return NotFound("No se encontraron categorías.");
+            }
+
+            return Ok(response);
         }
 
-        // GET: CategoriesController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: CategoriesController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult CreateCategory([FromBody] CreateAndUpdateCategoryDto newCategory)
+        {
+            if (newCategory == null)
+            {
+                return BadRequest("Los datos ingresados ya existen");
+            }
+
+            _categoryService.CreateCategory(newCategory);
+            return Ok("Categoría creada correctamente.");
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCategory(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _categoryService.DeleteCategory(id);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                BadRequest(ex);
             }
+
+            return NoContent();
         }
 
-        // GET: CategoriesController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CategoriesController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult UpdateCategory(CreateAndUpdateCategoryDto updatedCategory, int id)
         {
-            try
+            if (updatedCategory == null)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest("Category data is required for update.");
             }
-            catch
-            {
-                return View();
-            }
+
+
+            _categoryService.UpdateCategory(updatedCategory, id);
+
+            return NoContent();
         }
 
-        // GET: CategoriesController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: CategoriesController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
