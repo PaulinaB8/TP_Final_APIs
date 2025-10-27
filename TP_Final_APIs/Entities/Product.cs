@@ -5,6 +5,8 @@ namespace TP_Final_APIs.Entities
 {
     public class Product
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]

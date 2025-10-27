@@ -1,32 +1,33 @@
-﻿using TP_Final_APIs.Entities;
+﻿using TP_Final_APIs.Data;
+using TP_Final_APIs.Entities;
 using TP_Final_APIs.Repositories.Interfaces;
 
 namespace TP_Final_APIs.Repositories.Implementations
 {
     public class ProductRepository : IProductRepository
     {
-        List<Product> _context = new List<Product>();
+        private readonly TpFinalContexts _context;
         public IEnumerable<Product> GetProductsByCategory(int idCategory)
         {
-            return _context.Where(x => x.IdCategory == idCategory).ToList();
+            return _context.Products.Where(x => x.IdCategory == idCategory).ToList();
         }
         public Product GetProduct(int idProduct)
         {
-            return _context.FirstOrDefault(x => x.Id == idProduct);
+            return _context.Products.FirstOrDefault(x => x.Id == idProduct);
         }
         public IEnumerable<Product> GetFavouriteProducts()
         {
-            return _context.Where(x => x.Favourite == true).ToList();
+            return _context.Products.Where(x => x.Favourite == true).ToList();
         }
         public IEnumerable<Product> GetDiscountProducts()
         {
-            return _context.Where(x => x.Discount > 0).ToList();
+            return _context.Products.Where(x => x.Discount > 0).ToList();
         }
 
 
         public IEnumerable<Product> GetHappyHourProducts()
         {
-            return _context.Where(x => x.HappyHour == true).ToList();
+            return _context.Products.Where(x => x.HappyHour == true).ToList();
         }
 
         public void CreateProduct(Product newProduct)
@@ -41,7 +42,7 @@ namespace TP_Final_APIs.Repositories.Implementations
 
         public void UpdateProduct(Product updatedProduct, int idProduct)
         {
-            
+            _context.Products.Update(updatedProduct);
         }
 
 

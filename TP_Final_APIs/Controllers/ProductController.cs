@@ -48,7 +48,7 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpGet]
+    [HttpGet("favourites")]
     public ActionResult<IEnumerable<ProductDto>> GetFavouriteProducts()
     {
         var response = _productService.GetFavouriteProducts();
@@ -60,7 +60,7 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpGet]
+    [HttpGet ("discountproducts")]
     public ActionResult<IEnumerable<ProductDto>> GetDiscountProducts()
     {
         var response = _productService.GetDiscountProducts();
@@ -116,7 +116,7 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpPut("{idProduct}")]
+    [HttpPut("happyhour/{idProduct}")]
     public ActionResult<string> ApplyHappyHour([FromRoute]int idProduct)
     {
         var response =_productService.ApplyHappyHour(idProduct);
