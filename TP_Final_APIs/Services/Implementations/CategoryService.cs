@@ -55,5 +55,11 @@ namespace TP_Final_APIs.Services.Implementations
 
             _categoryRepository.UpdateCategory(updatedCategoryDto, idCategory);
         }
+
+        public bool CheckIfCategoryExists(int idUser)
+        {
+            var response = _categoryRepository.CheckIfCategoryExists(idUser);
+            return response;
+        }
     }
 }

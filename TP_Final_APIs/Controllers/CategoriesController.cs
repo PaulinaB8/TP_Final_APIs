@@ -59,15 +59,18 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateCategory(CreateAndUpdateCategoryDto updatedCategory, int id)
+        public IActionResult UpdateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory)
         {
             if (updatedCategory == null)
             {
                 return BadRequest("Category data is required for update.");
             }
+            if (_categoryService.CheckIfCategoryExists(idCategory) == false)
+            {
+                return NotFound($"User with ID {idCategory} not found");
+            }
 
-
-            _categoryService.UpdateCategory(updatedCategory, id);
+            _categoryService.UpdateCategory(updatedCategory, idCategory);
 
             return NoContent();
         }

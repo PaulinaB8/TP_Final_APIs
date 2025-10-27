@@ -9,5 +9,6 @@ namespace TP_Final_APIs.Services.Interfaces
         void CreateCategory(CreateAndUpdateCategoryDto newCategory);
         void DeleteCategory(int idCategory);
         void UpdateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory);
+        bool CheckIfCategoryExists(int idCategory);
     }
 }

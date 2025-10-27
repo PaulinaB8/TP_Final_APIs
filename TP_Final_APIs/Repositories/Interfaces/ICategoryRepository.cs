@@ -4,10 +4,11 @@ namespace TP_Final_APIs.Repositories.Interfaces
 {
     public interface ICategoryRepository
     {
-        IEnumerable<Category> GetCategories(int idRestaurant);
+        IEnumerable<Category> GetCategories(int idUser);
         void UpdateCategory(Category updatedCategory, int idCategory);
         void DeleteCategory(int idCategory);
         void CreateCategory(Category newCategory);
+        bool CheckIfCategoryExists(int idCategory);
 
     }
 }
