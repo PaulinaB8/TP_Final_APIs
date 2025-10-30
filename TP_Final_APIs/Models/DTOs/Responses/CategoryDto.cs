@@ -6,6 +6,7 @@ namespace TP_Final_APIs.Models.DTOs.Responses
     public class CategoryDto
     {
         [Required]
+        [StringLength(50)]
         public string Name { get; set; }
         public IEnumerable<Product> Products { get; set; }
     }
