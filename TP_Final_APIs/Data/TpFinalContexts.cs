@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using TP_Final_APIs.Entities;
 
 
@@ -33,6 +34,37 @@ public class TpFinalContexts : DbContext
 
         modelBuilder.Entity<User>().HasData(
                 luis);
+
+        Category entradas = new Category() //cuando crea la base de datos ya genera un usuario llamado Luis
+        {
+            Id = 1,
+            Name = "Entradas",
+            Products =
+            {
+                
+            }
+
+        };
+
+
+        modelBuilder.Entity<Category>().HasData(
+                    entradas);
+
+        Product rabas = new Product() //cuando crea la base de datos ya genera un usuario llamado Luis
+        {
+            Id = 1,
+            Name = "Entradas",
+            Price = 1500,
+            Description = "Rabas con limón",
+            HappyHour = false,
+            Favourite = true,
+            IdCategory = 1
+
+        };
+
+        modelBuilder.Entity<Product>().HasData(
+                    rabas);
+
 
         base.OnModelCreating(modelBuilder);
     }
