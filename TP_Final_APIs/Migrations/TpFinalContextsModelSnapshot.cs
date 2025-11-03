@@ -35,8 +35,6 @@ namespace TP_Final_APIs.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Categories");
                 });
 
@@ -82,6 +80,9 @@ namespace TP_Final_APIs.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.PrimitiveCollection<string>("CategoryId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -115,13 +116,6 @@ namespace TP_Final_APIs.Migrations
                             Phone = "34112345",
                             Status = true
                         });
-                });
-
-            modelBuilder.Entity("TP_Final_APIs.Entities.Category", b =>
-                {
-                    b.HasOne("TP_Final_APIs.Entities.User", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("TP_Final_APIs.Entities.Product", b =>
