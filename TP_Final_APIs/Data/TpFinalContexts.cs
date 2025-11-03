@@ -29,6 +29,7 @@ public class TpFinalContexts : DbContext
             Mail = "luis@gmail.com",
             Status = true,
             Phone = "34112345",
+            CategoryId = null,
 
         };
 
