@@ -20,7 +20,7 @@ namespace TP_Final_APIs.Services.Implementations
             var category = new Category
             {
                 Name = newCategory.Name,
-                Products = newCategory.Products
+                Products = newCategory.ProductId
             };
 
             _categoryRepository.CreateCategory(category);
@@ -38,7 +38,7 @@ namespace TP_Final_APIs.Services.Implementations
             IEnumerable<CategoryDto> categoryToReturn = category.Select(c => new CategoryDto()
             {
                 Name = c.Name,
-                Products = c.Products,
+                ProductId = c.Products,
             }).ToList();
             return categoryToReturn; 
         }
@@ -48,7 +48,7 @@ namespace TP_Final_APIs.Services.Implementations
             Category updatedCategoryDto = new Category()
             {
                 Name = updatedCategory.Name,
-                Products = updatedCategory.Products
+                Products = updatedCategory.ProductId
 
                 
             };

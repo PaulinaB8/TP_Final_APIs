@@ -37,11 +37,7 @@ namespace TP_Final_APIs.Controllers
         [HttpPost]
         public ActionResult CreateCategory([FromBody] CreateAndUpdateCategoryDto newCategory)
         {
-            if (newCategory == null)
-            {
-                return BadRequest("Los datos ingresados ya existen");
-            }
-
+            
             _categoryService.CreateCategory(newCategory);
             return Ok("Categoría creada correctamente.");
         }

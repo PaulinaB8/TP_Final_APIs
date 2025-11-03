@@ -9,6 +9,6 @@ namespace TP_Final_APIs.Models.DTOs.Requests
         [StringLength(50)]
         public string Name { get; set; }
 
-        public IEnumerable<int>? ProductsId { get; set; }
+        public IEnumerable<int>? ProductId { get; set; }
     }
 }
