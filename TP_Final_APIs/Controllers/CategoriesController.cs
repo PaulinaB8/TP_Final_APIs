@@ -18,8 +18,8 @@ namespace TP_Final_APIs.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<CategoryDto>> GetCategories(int idUser)
+        [HttpGet("{idUser}")]
+        public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromRoute]int idUser)
         {
             var response = _categoryService.GetCategories(idUser);
 
@@ -58,8 +58,8 @@ namespace TP_Final_APIs.Controllers
             return NoContent();
         }
 
-        [HttpPut]
-        public IActionResult UpdateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory)
+        [HttpPut("{idCategory}")]
+        public IActionResult UpdateCategory([FromBody]CreateAndUpdateCategoryDto updatedCategory, [FromRoute]int idCategory)
         {
             if (updatedCategory == null)
             {

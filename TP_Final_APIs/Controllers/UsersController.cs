@@ -35,7 +35,7 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpPut("{idUser}")]
-        public IActionResult UpdateUser(CreateAndUpdateUserDto userDto, [FromRoute]int idUser)
+        public IActionResult UpdateUser([FromBody]CreateAndUpdateUserDto userDto, [FromRoute]int idUser)
         {
             if (userDto is null)
             {
