@@ -8,6 +8,7 @@ namespace TP_Final_APIs.Models.DTOs.Requests
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
-        public IEnumerable<Product> Products { get; set; }
+
+        public IEnumerable<int>? ProductsId { get; set; }
     }
 }
