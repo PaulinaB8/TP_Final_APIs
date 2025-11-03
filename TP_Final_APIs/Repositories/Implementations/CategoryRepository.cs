@@ -8,8 +8,12 @@ namespace TP_Final_APIs.Repositories.Implementations
     public class CategoryRepository : ICategoryRepository
 
     {
-        private readonly  TpFinalContexts _context;
-        
+        private readonly  TpFinalContexts  _context;
+        public CategoryRepository(TpFinalContexts context)
+        {
+            _context = context;
+        }
+
         public void CreateCategory(Category newCategory)
         {
             _context.Add(newCategory);
