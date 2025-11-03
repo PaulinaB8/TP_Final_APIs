@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TP_Final_APIs.Models.DTOs.Requests;
 using TP_Final_APIs.Models.DTOs.Responses;
@@ -8,6 +9,7 @@ namespace TP_Final_APIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -18,12 +20,14 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetAll()
         {
             return Ok(_userService.GetAllRestaurants());
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult CreateRestaurant([FromBody]CreateAndUpdateUserDto userDto)
         {
             if (userDto == null)

@@ -24,6 +24,7 @@ public class ProductController : ControllerBase
 
 
     [HttpGet("{idCategory}")]
+    [AllowAnonymous]
     public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromRoute]int idCategory)
     {
         var response=_productService.GetProductsByCategory(idCategory);
@@ -37,6 +38,7 @@ public class ProductController : ControllerBase
 
 
     [HttpGet("{idProduct}")]
+    [AllowAnonymous]
     public ActionResult<ProductDto> GetProduct([FromRoute]int idProduct)
     {
         var response = _productService.GetProduct(idProduct);
@@ -49,6 +51,7 @@ public class ProductController : ControllerBase
 
 
     [HttpGet("favourites")]
+    [AllowAnonymous]
     public ActionResult<IEnumerable<ProductDto>> GetFavouriteProducts()
     {
         var response = _productService.GetFavouriteProducts();
@@ -61,6 +64,7 @@ public class ProductController : ControllerBase
 
 
     [HttpGet ("discountproducts")]
+    [AllowAnonymous]
     public ActionResult<IEnumerable<ProductDto>> GetDiscountProducts()
     {
         var response = _productService.GetDiscountProducts();
@@ -73,6 +77,7 @@ public class ProductController : ControllerBase
 
 
     [HttpGet]
+    [AllowAnonymous]
     public ActionResult<IEnumerable<ProductDto>> GetHappyHourProducts()
     {
         var response = _productService.GetHappyHourProducts();

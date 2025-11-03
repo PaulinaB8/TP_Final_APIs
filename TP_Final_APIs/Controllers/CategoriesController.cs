@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Models.DTOs.Requests;
@@ -10,6 +11,7 @@ namespace TP_Final_APIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -19,6 +21,7 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpGet("{idUser}")]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromRoute]int idUser)
         {
             var response = _categoryService.GetCategories(idUser);

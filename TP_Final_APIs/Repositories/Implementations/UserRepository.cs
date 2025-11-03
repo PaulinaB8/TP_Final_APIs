@@ -44,5 +44,10 @@ namespace TP_Final_APIs.Repositories.Implementations
             var userExistence = _context.Users.Any(user => user.Id == idUser);
             return userExistence;
         }
+
+        public User? GetByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Mail.ToLower() == email.ToLower());
+        }
     }
 }

@@ -82,5 +82,18 @@ namespace TP_Final_APIs.Services.Implementations
             var response = _userRepository.CheckIfUserExists(idUser);
             return response;
         }
+
+        public User? Authenticate(string email, string password)
+        {
+            var user = _userRepository.GetByEmail(email);
+
+            if (user is null)
+                return null;
+
+            if (user.Password == password)
+                return user;
+
+            return null;
+        }
     }
 }
