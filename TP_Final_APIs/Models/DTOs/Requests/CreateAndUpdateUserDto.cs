@@ -18,6 +18,6 @@ namespace TP_Final_APIs.Models.DTOs.Requests
         [Phone]
         public string Phone { get; set; }
 
-        public IEnumerable<Category> Categories { get; set; }
+        public IEnumerable<Category> CategoryId { get; set; }
     }
 }
