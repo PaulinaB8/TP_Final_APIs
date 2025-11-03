@@ -24,7 +24,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Mail = newRestaurantDto.Mail,
                 Status = newRestaurantDto.Status,
                 Phone = newRestaurantDto.Phone,
-                Categories = newRestaurantDto.CategoryId,
+                CategoryId = newRestaurantDto.CategoryId,
             };
 
             _userRepository.CreateRestaurant(user);
@@ -36,7 +36,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Mail = user.Mail,
                 Status = user.Status,
                 Phone = user.Phone,
-                Categories = user.Categories,
+                CategoryId = user.CategoryId,
             };
             return userDto;
 
@@ -56,7 +56,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Mail = user.Mail,
                 Status = user.Status,
                 Phone = user.Phone,
-                Categories = user.Categories,
+                CategoryId = user.CategoryId,
             });
             return IEnumerable;
         }
@@ -70,7 +70,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Mail = updatedUserDto.Mail,
                 Status = updatedUserDto.Status,
                 Phone = updatedUserDto.Phone,
-                Categories = updatedUserDto.CategoryId,
+                CategoryId = updatedUserDto.CategoryId,
             };
 
             _userRepository.UpdateUser(updatedUser, idUser);
