@@ -17,13 +17,14 @@ namespace TP_Final_APIs.Repositories.Implementations
         public void CreateRestaurant(User newRestaurant)
         {
             _context.Users.Add(newRestaurant);
-            //_context: SaveChanges();
+            _context.SaveChanges();
             
         }
 
         public void DeleteUser(int idUser)
         {
             var userDeleted = _context.Users.FirstOrDefault(u => u.Id == idUser);
+            _context.SaveChanges();
         }
 
         public IEnumerable<User> GetAllRestaurants()
@@ -36,13 +37,16 @@ namespace TP_Final_APIs.Repositories.Implementations
         public void UpdateUser(User updatedUser, int idUser)
         {
             _context.Users.Update(updatedUser);
+            _context.SaveChanges();
             
         }
 
         public bool CheckIfUserExists(int idUser)
         {
             var userExistence = _context.Users.Any(user => user.Id == idUser);
+            _context.SaveChanges();
             return userExistence;
+
         }
 
         public User? GetByEmail(string email)
