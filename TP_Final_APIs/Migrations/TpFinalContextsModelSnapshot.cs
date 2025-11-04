@@ -16,6 +16,28 @@ namespace TP_Final_APIs.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
 
+            modelBuilder.Entity("CategoryUser", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CategoriesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("UserCategories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoriesId = 1,
+                            UsersId = 1
+                        });
+                });
+
             modelBuilder.Entity("TP_Final_APIs.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -26,16 +48,16 @@ namespace TP_Final_APIs.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.PrimitiveCollection<string>("Products")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Entradas"
+                        });
                 });
 
             modelBuilder.Entity("TP_Final_APIs.Entities.Product", b =>
@@ -72,6 +94,19 @@ namespace TP_Final_APIs.Migrations
                     b.HasIndex("IdCategory");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Rabas con limón",
+                            Discount = 0.0,
+                            Favourite = true,
+                            HappyHour = false,
+                            IdCategory = 1,
+                            Name = "Rabas",
+                            Price = 1500.0
+                        });
                 });
 
             modelBuilder.Entity("TP_Final_APIs.Entities.User", b =>
@@ -79,9 +114,6 @@ namespace TP_Final_APIs.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.PrimitiveCollection<string>("CategoryId")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Mail")
                         .IsRequired()
@@ -118,20 +150,35 @@ namespace TP_Final_APIs.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CategoryUser", b =>
+                {
+                    b.HasOne("TP_Final_APIs.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TP_Final_APIs.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TP_Final_APIs.Entities.Product", b =>
                 {
                     b.HasOne("TP_Final_APIs.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("IdCategory")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("TP_Final_APIs.Entities.User", b =>
+            modelBuilder.Entity("TP_Final_APIs.Entities.Category", b =>
                 {
-                    b.Navigation("Categories");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
