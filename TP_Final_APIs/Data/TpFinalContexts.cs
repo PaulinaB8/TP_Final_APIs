@@ -42,7 +42,6 @@ public class TpFinalContexts : DbContext
             Name = "Entradas",
             Products =
             {
-               
             }
 
         };

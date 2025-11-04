@@ -8,6 +8,6 @@ namespace TP_Final_APIs.Models.DTOs.Responses
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
-        public IEnumerable<int> ProductId { get; set; }
+        public ICollection<Product>? Products { get; set; } = new List<Product>();
     }
 }
