@@ -37,7 +37,7 @@ namespace TP_Final_APIs.Controllers
         [HttpPost]
         public ActionResult CreateCategory([FromBody] CreateAndUpdateCategoryDto newCategory)
         {
-            
+        
             _categoryService.CreateCategory(newCategory);
             return Ok("Categoría creada correctamente.");
         }
@@ -48,13 +48,16 @@ namespace TP_Final_APIs.Controllers
             try
             {
                 _categoryService.DeleteCategory(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                BadRequest(ex);
+                return BadRequest(ex.Message);
             }
-
-            return NoContent();
         }
 
         [HttpPut("{idCategory}")]
