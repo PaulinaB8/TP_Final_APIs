@@ -21,7 +21,65 @@ public class TpFinalContexts : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        User luis = new User() //cuando crea la base de datos ya genera un usuario llamado Luis
+    //    User luis = new User() //cuando crea la base de datos ya genera un usuario llamado Luis
+    //    {
+    //        Id = 1,
+    //        Name = "Luis",
+    //        Password = "lamismadesiempre",
+    //        Mail = "luis@gmail.com",
+    //        Status = true,
+    //        Phone = "34112345",
+    //        CategoryId = null,
+
+        //    };
+
+        //    modelBuilder.Entity<User>().HasData(
+        //            luis);
+
+        //    Category entradas = new Category() //cuando crea la base de datos ya genera un usuario llamado Luis
+        //    {
+        //        Id = 1,
+        //        Name = "Entradas",
+
+
+        //    };
+
+
+        //    modelBuilder.Entity<Category>().HasData(
+        //                entradas);
+
+        //    Product rabas = new Product() //cuando crea la base de datos ya genera un usuario llamado Luis
+        //    {
+        //        Id = 1,
+        //        Name = "Rabas",
+        //        Price = 1500,
+        //        Description = "Rabas con limón",
+        //        HappyHour = false,
+        //        Favourite = true,
+        //        IdCategory = 1
+
+        //    };
+
+        //    modelBuilder.Entity<Product>()
+        //        .HasOne(p => p.Category)
+        //        .WithMany(c => c.Products)
+        //        .HasForeignKey(p => p.IdCategory)
+        //        .OnDelete(DeleteBehavior.Restrict);
+
+
+        //    base.OnModelCreating(modelBuilder);
+        //}
+
+        base.OnModelCreating(modelBuilder);
+
+        // Relación Category-Product (si no está por convención)
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Category)
+            .WithMany(c => c.Products)
+            .HasForeignKey(p => p.IdCategory)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        var luis = new User
         {
             Id = 1,
             Name = "Luis",
@@ -29,43 +87,30 @@ public class TpFinalContexts : DbContext
             Mail = "luis@gmail.com",
             Status = true,
             Phone = "34112345",
-            CategoryId = null,
-
+            CategoryId = null
         };
 
-        modelBuilder.Entity<User>().HasData(
-                luis);
-
-        Category entradas = new Category() //cuando crea la base de datos ya genera un usuario llamado Luis
+        var entradas = new Category
         {
             Id = 1,
-            Name = "Entradas",
-            Products =
-            {
-            }
-
+            Name = "Entradas"
         };
 
-
-        modelBuilder.Entity<Category>().HasData(
-                    entradas);
-
-        Product rabas = new Product() //cuando crea la base de datos ya genera un usuario llamado Luis
+        var rabas = new Product
         {
             Id = 1,
-            Name = "Entradas",
+            Name = "Rabas",
             Price = 1500,
             Description = "Rabas con limón",
             HappyHour = false,
             Favourite = true,
             IdCategory = 1
-
         };
 
-        modelBuilder.Entity<Product>().HasData(
-                    rabas);
-
-
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<User>().HasData(luis);
+        modelBuilder.Entity<Category>().HasData(entradas);
+        modelBuilder.Entity<Product>().HasData(rabas);
     }
 }
+
+

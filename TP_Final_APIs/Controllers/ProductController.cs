@@ -19,15 +19,15 @@ public class ProductController : ControllerBase
     }
     private readonly IProductService _productService;
 
-    
 
 
 
-    [HttpGet("categorie/{idCategory}")]
+
+    [HttpGet("category/{idCategory}")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromRoute]int idCategory)
+    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromRoute] int idCategory)
     {
-        var response=_productService.GetProductsByCategory(idCategory);
+        var response = _productService.GetProductsByCategory(idCategory);
         if (response == null)
         {
             return NotFound();
@@ -37,9 +37,9 @@ public class ProductController : ControllerBase
 
 
 
-    [HttpGet("{idProduct}")]
+    [HttpGet("product/{idProduct}")]
     [AllowAnonymous]
-    public ActionResult<ProductDto> GetProduct([FromRoute]int idProduct)
+    public ActionResult<ProductDto> GetProduct([FromRoute] int idProduct)
     {
         var response = _productService.GetProduct(idProduct);
         if (response == null)
@@ -63,7 +63,7 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpGet ("discountproducts")]
+    [HttpGet("discountproducts")]
     [AllowAnonymous]
     public ActionResult<IEnumerable<ProductDto>> GetDiscountProducts()
     {
@@ -76,7 +76,7 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpGet]
+    [HttpGet("happyhour")]
     [AllowAnonymous]
     public ActionResult<IEnumerable<ProductDto>> GetHappyHourProducts()
     {
