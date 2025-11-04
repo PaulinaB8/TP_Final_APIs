@@ -31,11 +31,13 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-
-        public ProductDto GetProduct(int idProduct)
+        public ProductDto? GetProduct(int idProduct)
         {
             var product = _productRepository.GetProduct(idProduct);
-            ProductDto productToReturn = new ProductDto()
+            if (product == null)
+                return null; 
+
+            return new ProductDto
             {
                 Name = product.Name,
                 Price = product.Price,
@@ -43,10 +45,8 @@ namespace TP_Final_APIs.Services.Implementations
                 Discount = product.Discount,
                 HappyHour = product.HappyHour,
                 Favourite = product.Favourite,
-                IdCategory = product.IdCategory,
+                IdCategory = product.IdCategory
             };
-            return productToReturn;
-
         }
 
 
