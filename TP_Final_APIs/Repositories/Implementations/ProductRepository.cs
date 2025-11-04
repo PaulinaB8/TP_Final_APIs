@@ -19,7 +19,7 @@ public class ProductRepository : IProductRepository
     {
         return _context.Products.Where(x => x.IdCategory == idCategory).ToList();
     }
-    public Product GetProduct(int idProduct)
+    public Product? GetProduct(int idProduct)
     {
         return _context.Products.FirstOrDefault(x => x.Id == idProduct);
         
