@@ -23,7 +23,7 @@ public class ProductController : ControllerBase
 
 
 
-    [HttpGet("{idCategory}")]
+    [HttpGet("categorie/{idCategory}")]
     [AllowAnonymous]
     public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromRoute]int idCategory)
     {

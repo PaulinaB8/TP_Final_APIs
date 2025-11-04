@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
 using TP_Final_APIs.Data;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Repositories.Interfaces;
@@ -8,6 +9,12 @@ namespace TP_Final_APIs.Repositories.Implementations;
 public class ProductRepository : IProductRepository
 {
     private readonly TpFinalContexts _context;
+
+    public ProductRepository(TpFinalContexts context)
+    {
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+    }
+
     public IEnumerable<Product> GetProductsByCategory(int idCategory)
     {
         return _context.Products.Where(x => x.IdCategory == idCategory).ToList();
