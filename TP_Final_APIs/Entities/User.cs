@@ -17,5 +17,5 @@ public class User
     public bool Status { get; set; } = true;
     public string Phone { get; set; }
 
-    public IEnumerable<int>? CategoryId { get; set; }
+    public ICollection<Category> Categories { get; set; } = new List<Category>();
 }

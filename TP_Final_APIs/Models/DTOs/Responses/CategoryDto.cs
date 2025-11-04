@@ -9,5 +9,6 @@ namespace TP_Final_APIs.Models.DTOs.Responses
         [StringLength(50)]
         public string Name { get; set; }
         public ICollection<Product>? Products { get; set; } = new List<Product>();
+        public ICollection<User>? Users { get; set; } = new List<User>();
     }
 }
