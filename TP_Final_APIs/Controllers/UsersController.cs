@@ -28,7 +28,7 @@ namespace TP_Final_APIs.Controllers
 
         [HttpPost]
         //[AllowAnonymous]
-        public IActionResult CreateRestaurant([FromBody]CreateAndUpdateUserDto userDto)
+        public IActionResult CreateRestaurant([FromBody]CreateUserDto userDto)
         {
             if (userDto == null)
             {
@@ -39,7 +39,7 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpPut("{idUser}")]
-        public IActionResult UpdateUser([FromBody]CreateAndUpdateUserDto userDto, [FromRoute]int idUser)
+        public IActionResult UpdateUser([FromBody]UpdateUserDto userDto, [FromRoute]int idUser)
         {
             if (userDto is null)
             {
