@@ -15,7 +15,7 @@ namespace TP_Final_APIs.Services.Implementations
         {
             _categoryRepository = categoryRepository;
         }
-        public void CreateCategory(CreateAndUpdateCategoryDto newCategory)
+        public void CreateCategory(int idUser, CreateAndUpdateCategoryDto newCategory)
         {
             var category = new Category
             {
@@ -23,8 +23,9 @@ namespace TP_Final_APIs.Services.Implementations
                 Products = newCategory.Products
             };
 
-            _categoryRepository.CreateCategory(category);
+            _categoryRepository.CreateCategory(category, idUser);
         }
+
 
         public void DeleteCategory(int idCategory)
         {
@@ -42,7 +43,8 @@ namespace TP_Final_APIs.Services.Implementations
                 Products = c.Products.Select(p => new ProductListDto
                 {
                     Name = p.Name,
-                    Price = p.Price
+                    Price = p.Price,
+                    Description = p.Description
                 }).ToList()
             }).ToList();
             return categoryToReturn; 

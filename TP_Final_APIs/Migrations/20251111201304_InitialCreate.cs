@@ -2,27 +2,16 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 
+
 namespace TP_Final_APIs.Migrations
 {
-    /// <inheritdoc />
-    public partial class Initial : Migration
+    
+    public partial class InitialCreate : Migration
     {
-        /// <inheritdoc />
+        
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -38,6 +27,26 @@ namespace TP_Final_APIs.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,69 +74,47 @@ namespace TP_Final_APIs.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "UserCategories",
-                columns: table => new
-                {
-                    CategoriesId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UsersId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserCategories", x => new { x.CategoriesId, x.UsersId });
-                    table.ForeignKey(
-                        name: "FK_UserCategories_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserCategories_Users_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Entradas" });
-
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Mail", "Name", "Password", "Phone", "Status" },
                 values: new object[] { 1, "luis@gmail.com", "Luis", "lamismadesiempre", "34112345", true });
 
             migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "Description", "Discount", "Favourite", "HappyHour", "IdCategory", "Name", "Price" },
-                values: new object[] { 1, "Rabas con limón", 0.0, true, false, 1, "Rabas", 1500.0 });
+                table: "Categories",
+                columns: new[] { "Id", "Name", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Entradas", 1 },
+                    { 2, "Principales", 1 },
+                    { 3, "Bebidas", 1 }
+                });
 
             migrationBuilder.InsertData(
-                table: "UserCategories",
-                columns: new[] { "CategoriesId", "UsersId" },
-                values: new object[] { 1, 1 });
+                table: "Products",
+                columns: new[] { "Id", "Description", "Discount", "Favourite", "HappyHour", "IdCategory", "Name", "Price" },
+                values: new object[,]
+                {
+                    { 1, "Rabas con limón", 0.0, true, false, 1, "Rabas", 1500.0 },
+                    { 2, "Milanesa con jamón y queso", 10.0, true, false, 2, "Milanesa Napolitana", 3500.0 },
+                    { 3, "Coca Cola 500ml", 0.0, false, true, 3, "Coca Cola", 800.0 }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_UserId",
+                table: "Categories",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_IdCategory",
                 table: "Products",
                 column: "IdCategory");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserCategories_UsersId",
-                table: "UserCategories",
-                column: "UsersId");
         }
 
-        /// <inheritdoc />
+        
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "UserCategories");
 
             migrationBuilder.DropTable(
                 name: "Categories");

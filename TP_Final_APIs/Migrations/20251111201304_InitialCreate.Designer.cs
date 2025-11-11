@@ -10,36 +10,14 @@ using TP_Final_APIs.Data;
 namespace TP_Final_APIs.Migrations
 {
     [DbContext(typeof(TpFinalContexts))]
-    [Migration("20251104183848_Initial")]
-    partial class Initial
+    [Migration("20251111201304_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
-
-            modelBuilder.Entity("CategoryUser", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("CategoriesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("UserCategories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            CategoriesId = 1,
-                            UsersId = 1
-                        });
-                });
 
             modelBuilder.Entity("TP_Final_APIs.Entities.Category", b =>
                 {
@@ -51,7 +29,12 @@ namespace TP_Final_APIs.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Categories");
 
@@ -59,7 +42,20 @@ namespace TP_Final_APIs.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Entradas"
+                            Name = "Entradas",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Principales",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Bebidas",
+                            UserId = 1
                         });
                 });
 
@@ -109,6 +105,28 @@ namespace TP_Final_APIs.Migrations
                             IdCategory = 1,
                             Name = "Rabas",
                             Price = 1500.0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Milanesa con jamón y queso",
+                            Discount = 10.0,
+                            Favourite = true,
+                            HappyHour = false,
+                            IdCategory = 2,
+                            Name = "Milanesa Napolitana",
+                            Price = 3500.0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Coca Cola 500ml",
+                            Discount = 0.0,
+                            Favourite = false,
+                            HappyHour = true,
+                            IdCategory = 3,
+                            Name = "Coca Cola",
+                            Price = 800.0
                         });
                 });
 
@@ -153,19 +171,15 @@ namespace TP_Final_APIs.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CategoryUser", b =>
+            modelBuilder.Entity("TP_Final_APIs.Entities.Category", b =>
                 {
-                    b.HasOne("TP_Final_APIs.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("TP_Final_APIs.Entities.User", "User")
+                        .WithMany("Categories")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TP_Final_APIs.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TP_Final_APIs.Entities.Product", b =>
@@ -182,6 +196,11 @@ namespace TP_Final_APIs.Migrations
             modelBuilder.Entity("TP_Final_APIs.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("TP_Final_APIs.Entities.User", b =>
+                {
+                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }
