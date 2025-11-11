@@ -9,5 +9,5 @@ public class CreateAndUpdateCategoryDto
     [StringLength(50)]
     public string Name { get; set; }
     public ICollection<Product>? Products { get; set; } = new List<Product>();
-    public ICollection<CreateUser>? Users { get; set; } = new List<CreateUser>();
+    public ICollection<CreateUserDto>? Users { get; set; } = new List<CreateUserDto>();
 }
