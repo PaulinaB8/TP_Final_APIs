@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using TP_Final_APIs.Data;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Repositories.Interfaces;
@@ -15,10 +16,11 @@ namespace TP_Final_APIs.Repositories.Implementations
             _context = context;
         }
 
-        public void CreateCategory(Category newCategory)
+        public void CreateCategory(Category newCategory, int userId)
         {
             _context.Add(newCategory);
             _context.SaveChanges();
+
         }
 
         public void DeleteCategory(int idCategory)

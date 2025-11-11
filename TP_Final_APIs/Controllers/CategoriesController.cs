@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Models.DTOs.Requests;
 using TP_Final_APIs.Models.DTOs.Responses;
@@ -51,8 +53,14 @@ namespace TP_Final_APIs.Controllers
         [HttpPost]
         public ActionResult CreateCategory([FromBody] CreateAndUpdateCategoryDto newCategory)
         {
-        
-            _categoryService.CreateCategory(newCategory);
+            var claim = User.FindFirst("idUser")
+                        ?? User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim == null) return Unauthorized("El token no tiene id de usuario");
+
+            int userId = int.Parse(claim.Value);
+
+            _categoryService.CreateCategory(userId, newCategory);
             return Ok("Categoría creada correctamente.");
         }
 

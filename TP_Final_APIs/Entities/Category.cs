@@ -12,5 +12,7 @@ public class Category
     public string Name { get; set; }
 
     public ICollection<Product>? Products { get; set; } = new List<Product>();
-    public ICollection<User>? Users { get; set; } = new List<User>();
+    public int UserId { get; set; }
+    [ForeignKey("UserId")]
+    public User User { get; set; }
 }
