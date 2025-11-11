@@ -16,7 +16,7 @@ namespace TP_Final_APIs.Repositories.Implementations
             _context = context;
         }
 
-        public void CreateCategory(Category newCategory, int userId)
+        public void CreateCategory(Category newCategory)
         {
             _context.Add(newCategory);
             _context.SaveChanges();

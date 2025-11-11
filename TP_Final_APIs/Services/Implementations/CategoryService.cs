@@ -15,15 +15,15 @@ namespace TP_Final_APIs.Services.Implementations
         {
             _categoryRepository = categoryRepository;
         }
-        public void CreateCategory(int idUser, CreateAndUpdateCategoryDto newCategory)
+        public void CreateCategory(int idUser, CreateCategoryDto newCategory)
         {
             var category = new Category
             {
                 Name = newCategory.Name,
-                Products = newCategory.Products
+                UserId = idUser
             };
 
-            _categoryRepository.CreateCategory(category, idUser);
+            _categoryRepository.CreateCategory(category);
         }
 
 
@@ -51,18 +51,27 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-public void UpdateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory)
+public void UpdateCategory(UpdateCategoryDto updatedCategory, int idCategory)
         {
-            Category updatedCategoryDto = new Category()
+            var categoryToUpdate = new Category
             {
+                Id = idCategory,                  // importante si el repo usa este Id
                 Name = updatedCategory.Name,
-                Products =updatedCategory.Products
-
-
+                Products = updatedCategory.Products
+            .Select(p => new Product
+            {
+                // Id = p.Id,            // si tu DTO trae Id del producto, ponelo, si no, sacalo
+                Name = p.Name,
+                Price = p.Price,
+                Description = p.Description
+            })
+            .ToList()
             };
 
-            _categoryRepository.UpdateCategory(updatedCategoryDto, idCategory);
+
+            _categoryRepository.UpdateCategory(categoryToUpdate, idCategory);
         }
+
 
         public bool CheckIfCategoryExists(int idUser)
         {
