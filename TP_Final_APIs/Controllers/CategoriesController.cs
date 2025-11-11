@@ -22,7 +22,7 @@ namespace TP_Final_APIs.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("{idUser}/{dateBirth}")]
+        [HttpGet("{idUser}")]
         [AllowAnonymous]
         public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromRoute]int idUser, [FromQuery]DateTime dateBirth)
         {
