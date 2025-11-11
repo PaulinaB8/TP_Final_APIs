@@ -15,16 +15,16 @@ namespace TP_Final_APIs.Services.Implementations
             _userRepository = userRepository;
         }
 
-        public UserDto CreateRestaurant(CreateAndUpdateUserDto newRestaurantDto)
+        public UserDto CreateRestaurant(CreateUserDto newRestaurantDto)
         {
             User user = new()
             {
                 Name = newRestaurantDto.Name,
                 Password = newRestaurantDto.Password,
                 Mail = newRestaurantDto.Mail,
-                Status = newRestaurantDto.Status,
+                
                 Phone = newRestaurantDto.Phone,
-                Categories = newRestaurantDto.Categories,
+                
             };
 
             _userRepository.CreateRestaurant(user);
@@ -61,16 +61,16 @@ namespace TP_Final_APIs.Services.Implementations
             return IEnumerable;
         }
 
-        public void UpdateUser(CreateAndUpdateUserDto updatedUserDto, int idUser)
+        public void UpdateUser(UpdateUserDto updatedUserDto, int idUser)
         {
             User updatedUser = new User()
             {
                 Name = updatedUserDto.Name,
-                Password = updatedUserDto.Password,
+              
                 Mail = updatedUserDto.Mail,
                 Status = updatedUserDto.Status,
                 Phone = updatedUserDto.Phone,
-                Categories = updatedUserDto.Categories,
+                
             };
 
             _userRepository.UpdateUser(updatedUser, idUser);
