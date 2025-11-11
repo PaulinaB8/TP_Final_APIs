@@ -20,18 +20,32 @@ namespace TP_Final_APIs.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("{idUser}")]
+        [HttpGet("{idUser}/{dateBirth}")]
         [AllowAnonymous]
-        public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromRoute]int idUser)
+        public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromRoute]int idUser, [FromQuery]DateTime dateBirth)
         {
-            var response = _categoryService.GetCategories(idUser);
+            var responseComplete = _categoryService.GetCategories(idUser);
 
-            if (response == null)
+            if (responseComplete == null)
             {
                 return NotFound("No se encontraron categorías.");
             }
 
-            return Ok(response);
+            int edad = DateTime.Today.Year - dateBirth.Year;
+
+            if (dateBirth.Date > DateTime.Today.AddYears(-edad))
+            {
+                edad--;
+            }
+
+            if (edad > 18)
+            {
+                return Ok(responseComplete);
+            }else
+            {
+                return Ok();
+            }
+            
         }
 
         [HttpPost]
