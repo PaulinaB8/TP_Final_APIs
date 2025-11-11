@@ -32,11 +32,10 @@ namespace TP_Final_APIs.Services.Implementations
             UserDto userDto = new()
             {
                 Name = user.Name,
-                Password = user.Password,
                 Mail = user.Mail,
                 Status = user.Status,
                 Phone = user.Phone,
-                Categories = user.Categories,
+                
             };
             return userDto;
 
@@ -52,11 +51,9 @@ namespace TP_Final_APIs.Services.Implementations
             var IEnumerable = _userRepository.GetAllRestaurants().Select(user => new UserDto
             {
                 Name = user.Name,
-                Password = user.Password,
                 Mail = user.Mail,
                 Status = user.Status,
-                Phone = user.Phone,
-                Categories = user.Categories,
+                Phone = user.Phone
             });
             return IEnumerable;
         }

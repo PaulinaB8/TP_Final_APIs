@@ -12,8 +12,7 @@ namespace TP_Final_APIs.Models.DTOs.Responses
         [StringLength(100)]
         public string Description { get; set; }
         public double Discount { get; set; } = 0;
-        public bool HappyHour { get; set; } = false;
-        public bool Favourite { get; set; } = false;
-        public int IdCategory { get; set; }
+        public bool HappyHour { get; set; } 
+        public bool Favourite { get; set; }
     }
 }

@@ -55,12 +55,12 @@ public void UpdateCategory(UpdateCategoryDto updatedCategory, int idCategory)
         {
             var categoryToUpdate = new Category
             {
-                Id = idCategory,                  // importante si el repo usa este Id
+                Id = idCategory,                  
                 Name = updatedCategory.Name,
                 Products = updatedCategory.Products
             .Select(p => new Product
             {
-                // Id = p.Id,            // si tu DTO trae Id del producto, ponelo, si no, sacalo
+                
                 Name = p.Name,
                 Price = p.Price,
                 Description = p.Description
