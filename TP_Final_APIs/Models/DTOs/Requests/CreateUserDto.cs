@@ -3,7 +3,8 @@ using TP_Final_APIs.Entities;
 
 namespace TP_Final_APIs.Models.DTOs.Requests
 {
-    public class CreateAndUpdateUserDto
+    public class CreateUserDto
+
     {
         [Required]
         [StringLength(50)]
@@ -14,10 +15,10 @@ namespace TP_Final_APIs.Models.DTOs.Requests
         [Required]
         [EmailAddress]
         public string Mail { get; set; }
-        public bool Status { get; set; } = true;
+    
         [Phone]
         public string Phone { get; set; }
 
-        public ICollection<Category>? Categories { get; set; } = new List<Category>();
+   
     }
 }

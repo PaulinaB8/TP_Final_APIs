@@ -8,9 +8,7 @@ namespace TP_Final_APIs.Models.DTOs.Responses
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
-        [Required]
-        [StringLength(100, MinimumLength = 8)]
-        public string Password { get; set; }
+       
         [Required]
         [EmailAddress]
         public string Mail { get; set; }
@@ -18,6 +16,5 @@ namespace TP_Final_APIs.Models.DTOs.Responses
         [Phone]
         public string Phone { get; set; }
 
-        public ICollection<Category>? Categories { get; set; } = new List<Category>();
     }
 }

@@ -24,8 +24,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Description = p.Description,
                 Discount = p.Discount,
                 HappyHour = p.HappyHour,
-                Favourite = p.Favourite,
-                IdCategory = p.IdCategory,
+                Favourite = p.Favourite
             }).ToList();
             return miEnumerable;
         }
@@ -44,8 +43,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Description = product.Description,
                 Discount = product.Discount,
                 HappyHour = product.HappyHour,
-                Favourite = product.Favourite,
-                IdCategory = product.IdCategory
+                Favourite = product.Favourite
             };
         }
 
@@ -61,8 +59,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Description = p.Description,
                 Discount = p.Discount,
                 HappyHour = p.HappyHour,
-                Favourite = p.Favourite,
-                IdCategory = p.IdCategory,
+                Favourite = p.Favourite
             }).ToList();
             return miEnumerable;
         }
@@ -78,8 +75,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Description = p.Description,
                 Discount = p.Discount,
                 HappyHour = p.HappyHour,
-                Favourite = p.Favourite,
-                IdCategory = p.IdCategory,
+                Favourite = p.Favourite
             }).ToList();
             return miEnumerable;
         }
@@ -96,8 +92,8 @@ namespace TP_Final_APIs.Services.Implementations
                 Description = p.Description,
                 Discount = p.Discount,
                 HappyHour = p.HappyHour,
-                Favourite = p.Favourite,
-                IdCategory = p.IdCategory,
+                Favourite = p.Favourite
+                
             }).ToList();
             return miEnumerable;
         }
