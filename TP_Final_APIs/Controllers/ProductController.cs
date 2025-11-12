@@ -100,17 +100,20 @@ public class ProductController : ControllerBase
 
     }
 
-    [HttpDelete("{idProduct}")]
-    public ActionResult DeleteProduct([FromRoute] int idProduct)
+    [HttpDelete]
+    public ActionResult DeleteProduct([FromQuery] string productName)
     {
-        _productService.DeleteProduct(idProduct);
+        if (string.IsNullOrWhiteSpace(productName))
+            return BadRequest("Debe especificar el nombre del producto.");
+        _productService.DeleteProduct(productName);
         return Ok("Producto eliminado");
     }
 
-    [HttpPut("{idProduct}")]
-    public ActionResult UpdateProduct([FromBody]UpdateProductDto updatedProduct, [FromRoute]int idProduct)
+
+    [HttpPut]
+    public ActionResult UpdateProduct([FromBody]UpdateProductDto updatedProduct, [FromQuery]string productName)
     {
-        _productService.UpdateProduct(updatedProduct, idProduct);
+        _productService.UpdateProduct(updatedProduct, productName);
         return Ok("Producto editado");
     }
 
@@ -123,10 +126,10 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpPut("happyhour/{idProduct}")]
-    public ActionResult<string> ApplyHappyHour([FromRoute]int idProduct)
+    [HttpPatch("happyhour")]
+    public ActionResult<string> ApplyHappyHour([FromQuery]string productName)
     {
-        var response =_productService.ApplyHappyHour(idProduct);
+        var response =_productService.ApplyHappyHour(productName);
         return Ok(response);
     }
 

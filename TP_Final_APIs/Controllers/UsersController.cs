@@ -32,7 +32,7 @@ namespace TP_Final_APIs.Controllers
         {
             if (userDto == null)
             {
-                return BadRequest("Invalid User data.");
+                return BadRequest("Es necesario cargar los datos del usuario.");
             }
             var userCreated = _userService.CreateRestaurant(userDto);
             return Ok(userCreated);
@@ -43,12 +43,12 @@ namespace TP_Final_APIs.Controllers
         {
             if (userDto is null)
             {
-                return BadRequest("User data is required for update");
+                return BadRequest("Es necesario cargar los datos del usuario para actualizar");
             }
 
             if (_userService.CheckIfUserExists(idUser) == false)
             {
-                return NotFound($"User with ID {idUser} not found");
+                return NotFound($"Usuario con ID {idUser} no encontrado");
             }
 
             _userService.UpdateUser(userDto, idUser);
@@ -60,17 +60,14 @@ namespace TP_Final_APIs.Controllers
         {
             if (_userService.CheckIfUserExists(idUser) == false)
             {
-                return NotFound($"The ID {idUser} wasn´t found");
+                return NotFound($"El ID {idUser} no fue encontrado");
             }
 
             _userService.DeleteUser(idUser);
             return NoContent();
         }
 
-        //IEnumerable<UserDto> GetAllRestaurants();
-        //UserDto CreateRestaurant(CreateAndUpdateUserDto newRestaurantDto);
-        //void DeleteUser(int idUser);
-        //void UpdateUser(CreateAndUpdateUserDto updatedUserDto, int idUser);
+        
 
     }
 }
