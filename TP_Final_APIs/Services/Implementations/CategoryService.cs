@@ -10,11 +10,15 @@ namespace TP_Final_APIs.Services.Implementations
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository _categoryRepository;
-        public CategoryService(ICategoryRepository categoryRepository)
+       
+        public CategoryService(ICategoryRepository categoryRepository, IUserRepository userRepository)
         {
             _categoryRepository = categoryRepository;
-        }
+            _userRepository = userRepository;
+        } 
+        
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUserRepository _userRepository;
         public void CreateCategory(int idUser, CreateCategoryDto newCategory)
         {
             var category = new Category
@@ -34,38 +38,42 @@ namespace TP_Final_APIs.Services.Implementations
             _categoryRepository.DeleteCategory(idCategory);
         }
 
-        public IEnumerable<CategoryDto> GetCategories(int idUser, DateTime dateBirth)
+        public IEnumerable<CategoryDto>? GetCategories(string userName, DateTime dateBirth)
         {
-            var category = _categoryRepository.GetCategories(idUser);
-
-            int edad = DateTime.Today.Year - dateBirth.Year;
-
-            if (dateBirth.Date > DateTime.Today.AddYears(-edad))
+            var idUser = _userRepository.GetUserByName(userName);
+            if (idUser.HasValue)
             {
-                edad--;
-            }
+                var category = _categoryRepository.GetCategories(idUser.Value);
 
-            if (edad < 18)
-            {
-                category = category.
-                    Where(c => !c.Name.Equals("Bebidas alcohólicas", StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
+                int edad = DateTime.Today.Year - dateBirth.Year;
 
-            var categoryToReturn = category.Select(c => new CategoryDto
-            {
-                Name = c.Name,
-
-                Products = c.Products.Select(p => new ProductListDto
+                if (dateBirth.Date > DateTime.Today.AddYears(-edad))
                 {
-                    Name = p.Name,
-                    Price = p.Price,
-                    Description = p.Description
-                }).ToList()
-            }).ToList();
-            return categoryToReturn;
+                    edad--;
+                }
 
-            
+                if (edad < 18)
+                {
+                    category = category.
+                        Where(c => !c.Name.Equals("Bebidas alcohólicas", StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                }
+
+                var categoryToReturn = category.Select(c => new CategoryDto
+                {
+                    Name = c.Name,
+
+                    Products = c.Products.Select(p => new ProductListDto
+                    {
+                        Name = p.Name,
+                        Price = p.Price,
+                        Description = p.Description
+                    }).ToList()
+                }).ToList();
+                return categoryToReturn;
+
+            }
+            return null;
         }
 
 
