@@ -26,32 +26,21 @@ namespace TP_Final_APIs.Controllers
         [AllowAnonymous]
         public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromRoute]int idUser, [FromQuery]DateTime dateBirth)
         {
-            var responseComplete = _categoryService.GetCategories(idUser);
+            var response = _categoryService.GetCategories(idUser, dateBirth);
 
-            if (responseComplete == null)
+            if (response == null)
             {
                 return NotFound("No se encontraron categorías.");
             }
 
-            int edad = DateTime.Today.Year - dateBirth.Year;
-
-            if (dateBirth.Date > DateTime.Today.AddYears(-edad))
-            {
-                edad--;
-            }
-
-            if (edad > 18)
-            {
-                return Ok(responseComplete);
-            }else
-            {
-                return Ok();
-            }
+           
+             return Ok(response);
+            
             
         }
 
         [HttpPost]
-        public ActionResult CreateCategory([FromBody] CreateAndUpdateCategoryDto newCategory)
+        public ActionResult CreateCategory([FromBody] CreateCategoryDto newCategory)
         {
             var claim = User.FindFirst("idUser")
                         ?? User.FindFirst(ClaimTypes.NameIdentifier);
@@ -60,7 +49,7 @@ namespace TP_Final_APIs.Controllers
 
             int userId = int.Parse(claim.Value);
 
-            _categoryService.CreateCategory(userId, newCategory);
+            _categoryService.CreateCategory(userId,newCategory);
             return Ok("Categoría creada correctamente.");
         }
 
@@ -83,7 +72,7 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpPut("{idCategory}")]
-        public IActionResult UpdateCategory([FromBody]CreateAndUpdateCategoryDto updatedCategory, [FromRoute]int idCategory)
+        public IActionResult UpdateCategory([FromBody]UpdateCategoryDto updatedCategory, [FromRoute]int idCategory)
         {
             if (updatedCategory == null)
             {

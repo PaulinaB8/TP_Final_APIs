@@ -5,10 +5,10 @@ namespace TP_Final_APIs.Services.Interfaces
 {
     public interface ICategoryService
     {
-        IEnumerable<CategoryDto> GetCategories(int idUser);
-        void CreateCategory(int userId, CreateAndUpdateCategoryDto newCategory);
+        IEnumerable<CategoryDto> GetCategories(int idUser, DateTime dateBirth);
+        void CreateCategory(int userId, CreateCategoryDto newCategory);
         void DeleteCategory(int idCategory);
-        void UpdateCategory(CreateAndUpdateCategoryDto updatedCategory, int idCategory);
+        void UpdateCategory(UpdateCategoryDto updatedCategory, int idCategory);
         bool CheckIfCategoryExists(int idCategory);
     }
 }

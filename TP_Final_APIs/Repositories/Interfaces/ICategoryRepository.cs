@@ -8,7 +8,7 @@ namespace TP_Final_APIs.Repositories.Interfaces
         
         void UpdateCategory(Category updatedCategory, int idCategory);
         void DeleteCategory(int idCategory);
-        void CreateCategory(Category newCategory, int userId); 
+        void CreateCategory(Category newCategory); 
         bool CheckIfCategoryExists(int idCategory);
 
     }
