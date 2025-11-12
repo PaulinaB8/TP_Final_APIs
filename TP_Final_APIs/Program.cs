@@ -1,13 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Globalization;
+using System.Text;
+using System.Text.Json.Serialization;
+using TP_Final_APIs.Data;
 using TP_Final_APIs.Repositories.Implementations;
 using TP_Final_APIs.Repositories.Interfaces;
 using TP_Final_APIs.Services.Implementations;
 using TP_Final_APIs.Services.Interfaces;
 
-using System.Text;
-using TP_Final_APIs.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +67,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddDbContext < TpFinalContexts > (dbContextOptions => dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:TpFinalContextsDBConnectionString"]));
+
+
 
 var app = builder.Build();
 

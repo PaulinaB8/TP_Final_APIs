@@ -13,9 +13,9 @@ namespace TP_Final_APIs.Services.Interfaces
          IEnumerable<ProductDto> GetHappyHourProducts();
 
         void CreateProduct(CreateProductDto newProduct, string categoryName);
-         void DeleteProduct(int idProduct);
-         void UpdateProduct(UpdateProductDto updatedProduct, int idProduct);
+         void DeleteProduct(string productName);
+         void UpdateProduct(UpdateProductDto updatedProduct, string productName);
          void ChangeDiscount(double discount, int idProduct);
-         string ApplyHappyHour(int idProduct);
+         string ApplyHappyHour(string productName);
     }
 }
