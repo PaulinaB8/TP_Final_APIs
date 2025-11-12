@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using TP_Final_APIs.Entities;
 
 namespace TP_Final_APIs.Models.DTOs.Requests
 {
-    public class CreateAndUpdateProductDto
+    public class UpdateProductDto
     {
 
         [Required]
@@ -18,5 +16,6 @@ namespace TP_Final_APIs.Models.DTOs.Requests
         public bool HappyHour { get; set; } = false;
         public bool Favourite { get; set; } = false;
         public int IdCategory { get; set; }
+
     }
 }

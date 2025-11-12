@@ -37,11 +37,11 @@ public class ProductController : ControllerBase
 
 
 
-    [HttpGet("{idProduct}")]
+    [HttpGet]
     [AllowAnonymous]
-    public ActionResult<ProductDto> GetProduct([FromRoute] int idProduct)
+    public ActionResult<ProductDto> GetProduct([FromQuery] string productName)
     {
-        var response = _productService.GetProduct(idProduct);
+        var response = _productService.GetProduct(productName);
         if (response == null)
         {
             return NotFound();
@@ -89,11 +89,13 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpPost("{idCategory}")]
+    [HttpPost]
 
-    public ActionResult CreateProduct([FromBody]CreateAndUpdateProductDto newProduct, [FromRoute]int idCategory)
+    public ActionResult CreateProduct([FromBody]CreateProductDto newProduct, [FromQuery] string categoryName)
     {
-        _productService.CreateProduct(newProduct, idCategory);
+
+
+        _productService.CreateProduct(newProduct, categoryName);
         return Ok("Producto creado");
 
     }
@@ -106,7 +108,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut("{idProduct}")]
-    public ActionResult UpdateProduct([FromBody]CreateAndUpdateProductDto updatedProduct, [FromRoute]int idProduct)
+    public ActionResult UpdateProduct([FromBody]UpdateProductDto updatedProduct, [FromRoute]int idProduct)
     {
         _productService.UpdateProduct(updatedProduct, idProduct);
         return Ok("Producto editado");
