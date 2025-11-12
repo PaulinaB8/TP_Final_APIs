@@ -117,11 +117,11 @@ public class ProductController : ControllerBase
         return Ok("Producto editado");
     }
 
-    [HttpPut("discount/{idProduct}")]
+    [HttpPatch("discount")]
 
-    public ActionResult ChangeDiscount([FromQuery]double discount, [FromRoute] int idProduct)
+    public ActionResult ChangeDiscount([FromQuery]double discount, [FromQuery] string productName)
     {
-        _productService.ChangeDiscount(discount, idProduct);
+        _productService.ChangeDiscount(discount, productName);
         return Ok("Se cambió el descuento");
     }
 

@@ -15,7 +15,7 @@ namespace TP_Final_APIs.Services.Interfaces
         void CreateProduct(CreateProductDto newProduct, string categoryName);
          void DeleteProduct(string productName);
          void UpdateProduct(UpdateProductDto updatedProduct, string productName);
-         void ChangeDiscount(double discount, int idProduct);
+         void ChangeDiscount(double discount, string productName);
          string ApplyHappyHour(string productName);
     }
 }

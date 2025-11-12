@@ -53,5 +53,11 @@ namespace TP_Final_APIs.Repositories.Implementations
         {
             return _context.Users.FirstOrDefault(u => u.Mail.ToLower() == email.ToLower());
         }
+
+        public int? GetUserByName (string userName)
+        {
+            var response = _context.Users.FirstOrDefault(c => c.Name.ToLower() == userName.ToLower());
+            return response?.Id;
+        }
     }
 }
