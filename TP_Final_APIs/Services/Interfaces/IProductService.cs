@@ -8,9 +8,9 @@ namespace TP_Final_APIs.Services.Interfaces
     {
          IEnumerable<ProductDto> GetProductsByCategory(string categoryName);
          ProductDto GetProduct(string productName);
-         IEnumerable<ProductDto> GetFavouriteProducts();
-         IEnumerable<ProductDto> GetDiscountProducts();
-         IEnumerable<ProductDto> GetHappyHourProducts();
+         IEnumerable<FavouriteProductsDto> GetFavouriteProducts();
+         IEnumerable<ProductsWithDiscountDto> GetDiscountProducts();
+         IEnumerable<FavouriteProductsDto> GetHappyHourProducts();
 
         void CreateProduct(CreateProductDto newProduct, string categoryName);
          void DeleteProduct(string productName);

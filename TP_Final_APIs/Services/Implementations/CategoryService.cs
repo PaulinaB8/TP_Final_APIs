@@ -33,9 +33,13 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-        public void DeleteCategory(int idCategory)
+        public void DeleteCategory(string categoryName)
         {
-            _categoryRepository.DeleteCategory(idCategory);
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+            if (idCategory.HasValue)
+            {
+                _categoryRepository.DeleteCategory(idCategory.Value);
+            }
         }
 
         public IEnumerable<CategoryDto>? GetCategories(string userName, DateTime dateBirth)
@@ -77,25 +81,29 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-public void UpdateCategory(UpdateCategoryDto updatedCategory, int idCategory)
+        public void UpdateCategory(UpdateCategoryDto updatedCategory, string categoryName)
         {
-            var categoryToUpdate = new Category
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+            if (idCategory.HasValue)
             {
-                Id = idCategory,                  
-                Name = updatedCategory.Name,
-                Products = updatedCategory.Products
+                var categoryToUpdate = new Category
+                {
+                    Id = idCategory.Value,
+                    Name = updatedCategory.Name,
+                    Products = updatedCategory.Products
             .Select(p => new Product
             {
-                
+
                 Name = p.Name,
                 Price = p.Price,
                 Description = p.Description
             })
             .ToList()
-            };
+                };
 
 
-            _categoryRepository.UpdateCategory(categoryToUpdate, idCategory);
+                _categoryRepository.UpdateCategory(categoryToUpdate, idCategory.Value);
+            }
         }
 
 
