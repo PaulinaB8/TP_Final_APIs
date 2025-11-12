@@ -174,13 +174,18 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public void ChangeDiscount(double discount, int idProduct)
+        public void ChangeDiscount(double discount, string productName)
         {
-            var product = _productRepository.GetProduct(idProduct);
-            if (product != null)
+            var idProduct = _productRepository.GetProductByName(productName);
+            if (idProduct.HasValue)
             {
-                _productRepository.ChangeDiscount(discount, idProduct);
+                var product = _productRepository.GetProduct(idProduct.Value);
+                if (product != null)
+                {
+                    _productRepository.ChangeDiscount(discount, idProduct.Value);
+                }
             }
+            
         }
 
 
