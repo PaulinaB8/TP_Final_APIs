@@ -42,12 +42,12 @@ public class ProductRepository : IProductRepository
 
     public void CreateProduct(Product newProduct)
     {
-        _context.Add(newProduct);
+        _context.Products.Add(newProduct);
         _context.SaveChanges();
     }
     public void DeleteProduct(int idProduct)
     {
-        _context.Remove(GetProduct(idProduct));
+        _context.Products.Remove(GetProduct(idProduct));
         _context.SaveChanges();
     }
 
@@ -72,12 +72,14 @@ public class ProductRepository : IProductRepository
         if (productToChange.HappyHour == true)
         {
             productToChange.HappyHour = false;
-            
+            _context.SaveChanges();
+
             return "El Happy Hour se desactivó";
         }
         else
         {
             productToChange.HappyHour = true;
+            _context.SaveChanges();
             return "El Happy Hour se activó ";
         }
     }

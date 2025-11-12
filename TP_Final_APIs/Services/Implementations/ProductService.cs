@@ -137,33 +137,38 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-        public void DeleteProduct(int idProduct)
+        public void DeleteProduct(string productName)
         {
-            var product = _productRepository.GetProduct(idProduct);
-            if (product != null)
+            var idProduct = _productRepository.GetProductByName(productName);
+            Console.WriteLine(productName);
+            if (idProduct.HasValue)
             {
-                _productRepository.DeleteProduct(idProduct);
+                _productRepository.DeleteProduct(idProduct.Value);
             }
         }
 
 
 
-        public void UpdateProduct(UpdateProductDto updatedProduct, int idProduct)
+        public void UpdateProduct(UpdateProductDto updatedProduct, string productName)
         {
-            var productExist = _productRepository.GetProduct(idProduct);
-            if (productExist != null)
+            var idProduct = _productRepository.GetProductByName(productName);
+            if (idProduct.HasValue)
             {
-                Product product = new Product()
+                var productExist = _productRepository.GetProduct(idProduct.Value);
+                if (productExist != null)
                 {
-                    Name = updatedProduct.Name,
-                    Price = updatedProduct.Price,
-                    Description = updatedProduct.Description,
-                    Discount = updatedProduct.Discount,
-                    HappyHour = updatedProduct.HappyHour,
-                    Favourite = updatedProduct.Favourite,
-                    IdCategory = updatedProduct.IdCategory,
-                };
-                _productRepository.UpdateProduct(product, idProduct);
+                    Product product = new Product()
+                    {
+                        Name = updatedProduct.Name,
+                        Price = updatedProduct.Price,
+                        Description = updatedProduct.Description,
+                        Discount = updatedProduct.Discount,
+                        HappyHour = updatedProduct.HappyHour,
+                        Favourite = updatedProduct.Favourite,
+                        IdCategory = updatedProduct.IdCategory,
+                    };
+                    _productRepository.UpdateProduct(product, idProduct.Value);
+                }
             }
         }
 
@@ -180,17 +185,21 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public string ApplyHappyHour(int idProduct)
+        public string ApplyHappyHour(string productName)
         {
-            var product = _productRepository.GetProduct(idProduct);
-            if (product != null)
+            var idProduct = _productRepository.GetProductByName(productName);
+            if (idProduct.HasValue)
             {
-                string response = _productRepository.ApplyHappyHour(idProduct);
-                return response;
+                var product = _productRepository.GetProduct(idProduct.Value);
+                if (product != null)
+                {
+                    string response = _productRepository.ApplyHappyHour(idProduct.Value);
+                    return response;
+                }
+                else return "No se encontró el producto";
             }
             else return "No se encontró el producto";
-
-            
         }
+           
     }
 }

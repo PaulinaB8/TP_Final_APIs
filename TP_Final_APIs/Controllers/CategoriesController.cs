@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Security.Claims;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Models.DTOs.Requests;
 using TP_Final_APIs.Models.DTOs.Responses;
 using TP_Final_APIs.Services.Implementations;
 using TP_Final_APIs.Services.Interfaces;
+using System.Globalization;
 
 namespace TP_Final_APIs.Controllers
 {
@@ -24,17 +26,32 @@ namespace TP_Final_APIs.Controllers
 
         [HttpGet("{idUser}")]
         [AllowAnonymous]
-        public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromRoute]int idUser, [FromQuery]DateTime dateBirth)
+        public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromRoute]int idUser, [FromQuery]string dateBirth)
         {
-            var response = _categoryService.GetCategories(idUser, dateBirth);
+            // Validar y parsear la fecha
+            DateTime fechaNacimiento;
+            string[] formatos = {
+                "dd/MM/yyyy",  // 15/05/2000
+                "dd-MM-yyyy",  // 15-05-2000
+                };
+
+            if (!DateTime.TryParseExact(dateBirth, formatos,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out fechaNacimiento))
+            {
+                return BadRequest("Formato de fecha inválido. Use dd/MM/yyyy, dd-MM-yyyy");
+            }
+
+            var response = _categoryService.GetCategories(idUser, fechaNacimiento);
 
             if (response == null)
             {
                 return NotFound("No se encontraron categorías.");
             }
+            
 
-           
-             return Ok(response);
+            return Ok(response);
             
             
         }
