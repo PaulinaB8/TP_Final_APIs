@@ -5,7 +5,7 @@ namespace TP_Final_APIs.Services.Interfaces
 {
     public interface IProductService
     {
-         IEnumerable<ProductDto> GetProductsByCategory(int idCategory);
+         IEnumerable<ProductDto> GetProductsByCategory(string categoryName);
          ProductDto GetProduct(int idProduct);
          IEnumerable<ProductDto> GetFavouriteProducts();
          IEnumerable<ProductDto> GetDiscountProducts();

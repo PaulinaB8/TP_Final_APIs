@@ -23,11 +23,11 @@ public class ProductController : ControllerBase
 
 
 
-    [HttpGet("category/{idCategory}")]
+    [HttpGet("category")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromRoute] int idCategory)
+    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromQuery] string categoryName)
     {
-        var response = _productService.GetProductsByCategory(idCategory);
+        var response = _productService.GetProductsByCategory(categoryName);
         if (response == null)
         {
             return NotFound();
@@ -37,7 +37,7 @@ public class ProductController : ControllerBase
 
 
 
-    [HttpGet("product/{idProduct}")]
+    [HttpGet("{idProduct}")]
     [AllowAnonymous]
     public ActionResult<ProductDto> GetProduct([FromRoute] int idProduct)
     {

@@ -9,24 +9,32 @@ namespace TP_Final_APIs.Services.Implementations
 {
     public class ProductService :IProductService
     {
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
         private readonly IProductRepository _productRepository;
-        public IEnumerable<ProductDto> GetProductsByCategory(int idCategory)
+        private readonly ICategoryRepository _categoryRepository;
+        public IEnumerable<ProductDto> GetProductsByCategory(string categoryName)
         {
-            var products = _productRepository.GetProductsByCategory(idCategory);
-            IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+
+            if (idCategory.HasValue)
             {
-                Name = p.Name,
-                Price = p.Price,
-                Description = p.Description,
-                Discount = p.Discount,
-                HappyHour = p.HappyHour,
-                Favourite = p.Favourite
-            }).ToList();
-            return miEnumerable;
+                var products = _productRepository.GetProductsByCategory(idCategory.Value);
+                IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
+                {
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    Discount = p.Discount,
+                    HappyHour = p.HappyHour,
+                    Favourite = p.Favourite
+                }).ToList();
+                return miEnumerable;
+            }
+            else return null;
         }
 
 
