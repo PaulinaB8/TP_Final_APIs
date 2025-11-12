@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
+using System.Xml.Linq;
 using TP_Final_APIs.Data;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Repositories.Interfaces;
@@ -79,5 +80,11 @@ public class ProductRepository : IProductRepository
             productToChange.HappyHour = true;
             return "El Happy Hour se activó ";
         }
+    }
+
+    public int? GetProductByName(string productName)
+    {
+        var response = _context.Products.FirstOrDefault(c => c.Name.ToLower() == productName.ToLower());
+        return response?.Id;
     }
 }

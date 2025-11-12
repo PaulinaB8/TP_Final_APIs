@@ -14,5 +14,7 @@ namespace TP_Final_APIs.Repositories.Interfaces
         public void UpdateProduct(Product updatedProduct, int idProduct);
         public void ChangeDiscount(double discount, int idProduct);
         public string ApplyHappyHour(int idProduct);
+
+        public int? GetProductByName(string productName);
     }
 }

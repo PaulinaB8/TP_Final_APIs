@@ -9,42 +9,56 @@ namespace TP_Final_APIs.Services.Implementations
 {
     public class ProductService :IProductService
     {
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
         private readonly IProductRepository _productRepository;
-        public IEnumerable<ProductDto> GetProductsByCategory(int idCategory)
+        private readonly ICategoryRepository _categoryRepository;
+        public IEnumerable<ProductDto> GetProductsByCategory(string categoryName)
         {
-            var products = _productRepository.GetProductsByCategory(idCategory);
-            IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+
+            if (idCategory.HasValue)
             {
-                Name = p.Name,
-                Price = p.Price,
-                Description = p.Description,
-                Discount = p.Discount,
-                HappyHour = p.HappyHour,
-                Favourite = p.Favourite
-            }).ToList();
-            return miEnumerable;
+                var products = _productRepository.GetProductsByCategory(idCategory.Value);
+                IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
+                {
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    Discount = p.Discount,
+                    HappyHour = p.HappyHour,
+                    Favourite = p.Favourite
+                }).ToList();
+                return miEnumerable;
+            }
+            else return null;
         }
 
 
-        public ProductDto? GetProduct(int idProduct)
+        public ProductDto? GetProduct(string productName)
         {
-            var product = _productRepository.GetProduct(idProduct);
-            if (product == null)
-                return null; 
-
-            return new ProductDto
+            int? idProduct = _productRepository.GetProductByName(productName);
+            if (idProduct.HasValue)
             {
-                Name = product.Name,
-                Price = product.Price,
-                Description = product.Description,
-                Discount = product.Discount,
-                HappyHour = product.HappyHour,
-                Favourite = product.Favourite
-            };
+                var product = _productRepository.GetProduct(idProduct.Value);
+                if (product == null)
+                    return null;
+
+                return new ProductDto
+                {
+                    Name = product.Name,
+                    Price = product.Price,
+                    Description = product.Description,
+                    Discount = product.Discount,
+                    HappyHour = product.HappyHour,
+                    Favourite = product.Favourite
+                };
+            }
+            else return null;
+            
         }
 
 
@@ -101,19 +115,25 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public void CreateProduct(CreateAndUpdateProductDto newProduct, int idCategory)
+        public void CreateProduct(CreateProductDto newProduct, string categoryName)
         {
-            Product newProductToCreate = new Product()
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+
+            if (idCategory.HasValue)
             {
-                Name = newProduct.Name,
-                Price = newProduct.Price,
-                Description = newProduct.Description,
-                Discount = newProduct.Discount,
-                HappyHour = newProduct.HappyHour,
-                Favourite = newProduct.Favourite,
-                IdCategory = newProduct.IdCategory,
-            };
-            _productRepository.CreateProduct(newProductToCreate);
+
+                Product newProductToCreate = new Product()
+                {
+                    Name = newProduct.Name,
+                    Price = newProduct.Price,
+                    Description = newProduct.Description,
+                    Discount = newProduct.Discount,
+                    HappyHour = newProduct.HappyHour,
+                    Favourite = newProduct.Favourite,
+                    IdCategory = idCategory.Value,
+                };
+                _productRepository.CreateProduct(newProductToCreate);
+            }
         }
 
 
@@ -128,7 +148,7 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public void UpdateProduct(CreateAndUpdateProductDto updatedProduct, int idProduct)
+        public void UpdateProduct(UpdateProductDto updatedProduct, int idProduct)
         {
             var productExist = _productRepository.GetProduct(idProduct);
             if (productExist != null)

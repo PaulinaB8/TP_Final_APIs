@@ -56,5 +56,13 @@ namespace TP_Final_APIs.Repositories.Implementations
             _context.SaveChanges();
 
         }
+
+        public int? GetCategoryByName (string name)
+        {
+            
+            var response = _context.Categories.FirstOrDefault(c => c.Name.ToLower() == name.ToLower());
+            return response?.Id;
+            
+        }
     }
 }
