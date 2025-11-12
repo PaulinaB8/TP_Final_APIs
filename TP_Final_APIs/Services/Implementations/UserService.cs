@@ -67,7 +67,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Mail = updatedUserDto.Mail,
                 Status = updatedUserDto.Status,
                 Phone = updatedUserDto.Phone,
-                
+                 
             };
 
             _userRepository.UpdateUser(updatedUser, idUser);
