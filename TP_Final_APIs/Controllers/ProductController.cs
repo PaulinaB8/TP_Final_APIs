@@ -133,4 +133,17 @@ public class ProductController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPatch("applydiscount")]
+    public ActionResult ApplyDiscountToMultipleProducts([FromBody] List<string> productNames, [FromQuery] double percentage)
+    {
+        try
+        {
+            _productService.ApplyDiscountToProducts(productNames, percentage);
+            return Ok($"Se aplicó el {percentage}% de descuento a los productos seleccionados");
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
