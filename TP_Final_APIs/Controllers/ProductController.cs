@@ -133,6 +133,7 @@ public class ProductController : ControllerBase
         return Ok(response);
     }
 
+<<<<<<< HEAD
     [HttpGet("pricewithdiscount")]
     [AllowAnonymous]
     public ActionResult<ProductPriceDto> GetProductPriceWithDiscount([FromQuery] string productName)
@@ -150,5 +151,19 @@ public class ProductController : ControllerBase
         }
 
         return Ok(result);
+=======
+    [HttpPatch("applydiscount")]
+    public ActionResult ApplyDiscountToMultipleProducts([FromBody] List<string> productNames, [FromQuery] double percentage)
+    {
+        try
+        {
+            _productService.ApplyDiscountToProducts(productNames, percentage);
+            return Ok($"Se aplicó el {percentage}% de descuento a los productos seleccionados");
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+>>>>>>> 3bb738d2b0e082a41b14f7d7194d0122ad04bdeb
     }
 }
