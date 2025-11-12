@@ -205,6 +205,67 @@ namespace TP_Final_APIs.Services.Implementations
             }
             else return "No se encontró el producto";
         }
-           
+
+        public ProductDto GetProductWithDiscount(string productName)
+        {
+            
+            var productId = _productRepository.GetProductByName(productName);
+
+            if (!productId.HasValue)
+            {
+                return null;
+            }
+
+            var product = _productRepository.GetProduct(productId.Value);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+             double finalPrice = product.Discount > 0
+                ? product.Price - (product.Price * product.Discount / 100)
+                : product.Price;
+
+            return new ProductDto
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                Discount = product.Discount,
+                HappyHour = product.HappyHour,
+                Favourite = product.Favourite,
+                FinalPrice = finalPrice
+            };
+        }
+        public ProductPriceDto GetProductFinalPrice(string productName)
+        {
+            // Buscar el producto por nombre
+            var productId = _productRepository.GetProductByName(productName);
+
+            if (!productId.HasValue)
+            {
+                return null;
+            }
+
+            var product = _productRepository.GetProduct(productId.Value);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            // Calcular el precio final con descuento
+            double finalPrice = product.Discount > 0
+                ? product.Price - (product.Price * product.Discount / 100)
+                : product.Price;
+
+            return new ProductPriceDto
+            {
+                Name = product.Name,
+                FinalPrice = finalPrice
+            };
+        }
+
     }
 }

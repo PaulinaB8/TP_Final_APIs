@@ -133,4 +133,22 @@ public class ProductController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("pricewithdiscount")]
+    [AllowAnonymous]
+    public ActionResult<ProductPriceDto> GetProductPriceWithDiscount([FromQuery] string productName)
+    {
+        if (string.IsNullOrWhiteSpace(productName))
+        {
+            return BadRequest("Debe proporcionar el nombre del producto");
+        }
+
+        var result = _productService.GetProductFinalPrice(productName);
+
+        if (result == null)
+        {
+            return NotFound($"No se encontró el producto '{productName}'");
+        }
+
+        return Ok(result);
+    }
 }
