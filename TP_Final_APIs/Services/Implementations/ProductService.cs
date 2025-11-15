@@ -207,7 +207,7 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-        public ProductDto GetProductWithDiscount(string productName)
+        public ProductWithDiscountDto GetProductWithDiscount(string productName)
         {
             
             var productId = _productRepository.GetProductByName(productName);
@@ -228,7 +228,7 @@ namespace TP_Final_APIs.Services.Implementations
                 ? product.Price - (product.Price * product.Discount / 100)
                 : product.Price;
 
-            return new ProductDto
+            return new ProductWithDiscountDto
             {
                 Name = product.Name,
                 Price = product.Price,
