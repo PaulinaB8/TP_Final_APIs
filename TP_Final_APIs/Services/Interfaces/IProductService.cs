@@ -21,5 +21,7 @@ namespace TP_Final_APIs.Services.Interfaces
         ProductWithDiscountDto GetProductWithDiscount(string productName);
         ProductPriceDto GetProductFinalPrice(string productName);
 
+        public bool AgeValidation(DateTime dateBirth, string categoryName);
+
     }
 }

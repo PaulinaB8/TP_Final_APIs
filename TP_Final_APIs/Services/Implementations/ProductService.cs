@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Humanizer;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Models.DTOs.Requests;
@@ -19,29 +20,35 @@ namespace TP_Final_APIs.Services.Implementations
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUserRepository _userRepository;
-        public IEnumerable<ProductDto> GetProductsByCategory(string categoryName, string userName)
+        public IEnumerable<ProductDto>? GetProductsByCategory(string categoryName, string userName)
         {
-            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+            
             var idUser = _userRepository.GetUserByName(userName);
+            if (!idUser.HasValue)
+                return null;
 
-            if (idCategory.HasValue && idUser.HasValue)
+            
+            int? categoryId = _categoryRepository.GetCategoryByName(categoryName, idUser.Value);
+            if (categoryId == null)
+                return null;
+
+            var products = _productRepository.GetProductsByCategory(categoryId.Value, idUser.Value);
+
+            
+            var miEnumerable = products.Select(p => new ProductDto
             {
-                var products = _productRepository.GetProductsByCategory(idCategory.Value, idUser.Value);
-                IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
-                {
-                    Name = p.Name,
-                    Price = p.Price,
-                    Description = p.Description,
-                    Discount = p.Discount,
-                    HappyHour = p.HappyHour,
-                    Favourite = p.Favourite
-                }).ToList();
-                return miEnumerable;
-            }
-            else return null;
+                Name = p.Name,
+                Price = p.Price,
+                Description = p.Description,
+                Discount = p.Discount,
+                HappyHour = p.HappyHour,
+                Favourite = p.Favourite
+            }).ToList();
+
+            return miEnumerable;
         }
 
-
+        
         public ProductDto? GetProduct(string productName)
         {
             int? idProduct = _productRepository.GetProductByName(productName);
@@ -262,6 +269,23 @@ namespace TP_Final_APIs.Services.Implementations
                 FinalPrice = finalPrice
             };
 
+        }
+
+        public bool AgeValidation (DateTime dateBirth, string categoryName)
+        {
+            int edad = DateTime.Today.Year - dateBirth.Year;
+
+            if (dateBirth.Date > DateTime.Today.AddYears(-edad))
+            {
+                edad--;
+            }
+
+            if (edad < 18 && categoryName.Equals("Bebidas alcohólicas", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+
+            }
+            return true;
         }
 
     }
