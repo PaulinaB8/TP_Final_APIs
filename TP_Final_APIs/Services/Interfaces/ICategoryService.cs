@@ -7,8 +7,8 @@ namespace TP_Final_APIs.Services.Interfaces
     {
         IEnumerable<CategoryDto> GetCategories(string userName, DateTime dateBirth);
         void CreateCategory(int userId, CreateCategoryDto newCategory);
-        void DeleteCategory(string categoryName);
-        void UpdateCategory(UpdateCategoryDto updatedCategory, string categoryName);
+        void DeleteCategory(string categoryName, int userId);
+        bool UpdateCategory(UpdateCategoryDto updatedCategory, string categoryName, int userId);
         bool CheckIfCategoryExists(int idCategory);
     }
 }

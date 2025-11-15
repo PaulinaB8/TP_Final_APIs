@@ -47,19 +47,28 @@ namespace TP_Final_APIs.Repositories.Implementations
             var categoryExistence = _context.Categories.Any(user => user.Id == idCategory);
             return categoryExistence;
         }
-        public void UpdateCategory(Category updatedCategory, int idCategory)
-        { 
-                _context.Categories.Update(updatedCategory);
-            _context.SaveChanges();
+        public void UpdateCategory(Category updatedCategory)
+        {
+            var existingCategory = _context.Categories.Find(updatedCategory.Id);
+            if (existingCategory != null)
+            {
+                existingCategory.Name = updatedCategory.Name;
+                _context.SaveChanges();
+            }
 
         }
 
-        public int? GetCategoryByName (string name)
+        public int? GetCategoryByName (string name, int userId)
         {
-            
-            var response = _context.Categories.FirstOrDefault(c => c.Name.ToLower() == name.ToLower());
-            return response?.Id;
-            
+            if (userId == 0)
+            {
+                var response =_context.Categories.FirstOrDefault(c => c.Name.ToLower() == name.ToLower());
+                return response?.Id;
+            }
+            else {
+                var response = _context.Categories.FirstOrDefault(c => c.Name.ToLower() == name.ToLower() && c.UserId == userId);
+                return response?.Id;
+            }
         }
     }
 }

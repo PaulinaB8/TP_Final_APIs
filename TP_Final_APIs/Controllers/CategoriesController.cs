@@ -59,7 +59,7 @@ namespace TP_Final_APIs.Controllers
         [HttpPost]
         public ActionResult CreateCategory([FromBody] CreateCategoryDto newCategory)
         {
-            var claim = User.FindFirst("idUser")
+            var claim = User.FindFirst("sum")
                         ?? User.FindFirst(ClaimTypes.NameIdentifier);
 
             if (claim == null) return Unauthorized("El token no tiene id de usuario");
@@ -73,9 +73,17 @@ namespace TP_Final_APIs.Controllers
         [HttpDelete]
         public IActionResult DeleteCategory([FromRoute]string categoryName)
         {
+
+            var claim = User.FindFirst("sum")
+                        ?? User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim == null) return Unauthorized("El token no tiene id de usuario");
+
+            int userId = int.Parse(claim.Value);
+
             try
             {
-                _categoryService.DeleteCategory(categoryName);
+                _categoryService.DeleteCategory(categoryName, userId);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
@@ -88,7 +96,7 @@ namespace TP_Final_APIs.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPatch]
         public IActionResult UpdateCategory([FromBody]UpdateCategoryDto updatedCategory, [FromQuery]string categoryName)
         {
 
@@ -97,10 +105,24 @@ namespace TP_Final_APIs.Controllers
                 return BadRequest("Es necesario cargar datos en la categoría para actualizar.");
             }
 
-            _categoryService.UpdateCategory(updatedCategory, categoryName);
+            var claim = User.FindFirst("sum")
+                        ?? User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim == null) return Unauthorized("El token no tiene id de usuario");
+
+            int userId = int.Parse(claim.Value);
+
+            var response = _categoryService.UpdateCategory(updatedCategory, categoryName, userId);
+
+            if (response == false)
+            {
+                return BadRequest();
+            }
 
             return NoContent();
         }
+
+
 
 
     }

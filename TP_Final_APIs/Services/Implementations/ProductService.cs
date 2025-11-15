@@ -19,7 +19,8 @@ namespace TP_Final_APIs.Services.Implementations
         private readonly ICategoryRepository _categoryRepository;
         public IEnumerable<ProductDto> GetProductsByCategory(string categoryName)
         {
-            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+            int userId = 0;
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName, userId);
 
             if (idCategory.HasValue)
             {
@@ -108,9 +109,9 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public void CreateProduct(CreateProductDto newProduct, string categoryName)
+        public void CreateProduct(CreateProductDto newProduct, string categoryName, int userId)
         {
-            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName, userId);
 
             if (idCategory.HasValue)
             {

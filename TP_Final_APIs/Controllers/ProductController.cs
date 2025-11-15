@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TP_Final_APIs.Models.DTOs.Requests;
 using TP_Final_APIs.Models.DTOs.Responses;
 using TP_Final_APIs.Services.Interfaces;
@@ -93,9 +94,14 @@ public class ProductController : ControllerBase
 
     public ActionResult CreateProduct([FromBody]CreateProductDto newProduct, [FromQuery] string categoryName)
     {
+        var claim = User.FindFirst("sum")
+                        ?? User.FindFirst(ClaimTypes.NameIdentifier);
 
+        if (claim == null) return Unauthorized("El token no tiene id de usuario");
 
-        _productService.CreateProduct(newProduct, categoryName);
+        int userId = int.Parse(claim.Value);
+
+        _productService.CreateProduct(newProduct, categoryName, userId);
         return Ok("Producto creado");
 
     }

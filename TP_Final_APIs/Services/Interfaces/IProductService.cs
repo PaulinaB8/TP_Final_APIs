@@ -12,7 +12,7 @@ namespace TP_Final_APIs.Services.Interfaces
          IEnumerable<ProductsWithDiscountDto> GetDiscountProducts();
          IEnumerable<FavouriteProductsDto> GetHappyHourProducts();
 
-        void CreateProduct(CreateProductDto newProduct, string categoryName);
+        void CreateProduct(CreateProductDto newProduct, string categoryName, int userId);
          void DeleteProduct(string productName);
          void UpdateProduct(UpdateProductDto updatedProduct, string productName);
          void ChangeDiscount(double discount, string productName);
