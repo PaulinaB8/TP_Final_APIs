@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TP_Final_APIs.Models.DTOs.Requests;
 using TP_Final_APIs.Models.DTOs.Responses;
 using TP_Final_APIs.Services.Interfaces;
@@ -18,6 +19,8 @@ namespace TP_Final_APIs.Controllers
         {
             _userService = userService;
         }
+
+      
 
         [HttpGet]
         [AllowAnonymous]
@@ -38,10 +41,17 @@ namespace TP_Final_APIs.Controllers
             return Ok(userCreated);
         }
 
-        [HttpPut("{idUser}")]
-        public IActionResult UpdateUser([FromBody]UpdateUserDto userDto, [FromRoute]int idUser)
+        [HttpPut]
+        public IActionResult UpdateUser([FromBody]UpdateUserDto userDto)
         {
-            var response = _userService.UpdateUser(userDto, idUser);
+            var claim = User.FindFirst("sum")
+                        ?? User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim == null) return Unauthorized("El token no tiene id de usuario");
+
+            int userId = int.Parse(claim.Value);
+
+            var response = _userService.UpdateUser(userDto, userId);
             if (userDto is null)
             {
                 return BadRequest("Es necesario cargar los datos del usuario para actualizar");
@@ -49,20 +59,28 @@ namespace TP_Final_APIs.Controllers
 
             if (response is null)
             {
-                return NotFound($"Usuario con ID {idUser} no encontrado");
+                return NotFound($"Usuario con ID {userId} no encontrado");
             }
 
             return Ok("Actualización exitosa");
         }
 
-        [HttpDelete("{idUser}")]
-        public IActionResult DeleteUser([FromRoute]int idUser)
+        [HttpDelete]
+        public IActionResult DeleteUser()
         {
-            var response = _userService.DeleteUser(idUser);
+
+            var claim = User.FindFirst("sum")
+                        ?? User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim == null) return Unauthorized("El token no tiene id de usuario");
+
+            int userId = int.Parse(claim.Value);
+
+            var response = _userService.DeleteUser(userId);
 
             if (response == null)
             {
-                return NotFound($"El ID {idUser} no fue encontrado");
+                return NotFound($"El ID {userId} no fue encontrado");
             }
             else return NoContent();
 
