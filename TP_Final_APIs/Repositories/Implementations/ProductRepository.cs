@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Xml.Linq;
 using TP_Final_APIs.Data;
@@ -25,19 +26,48 @@ public class ProductRepository : IProductRepository
         return _context.Products.FirstOrDefault(x => x.Id == idProduct);
         
     }
-    public IEnumerable<Product> GetFavouriteProducts()
+    //public IEnumerable<Product> GetFavouriteProducts(string userName)
+    //{
+    //    return _context.Products.Where(x => x.Favourite == true &&
+    //    x.Category.User.Name == userName).ToList();
+    //}
+
+    public IEnumerable<Product> GetFavouriteProducts(string userName)
     {
-        return _context.Products.Where(x => x.Favourite == true).ToList();
+        return _context.Products
+            .Include(x => x.Category)
+                .ThenInclude(c => c.User)
+            .Where(x => x.Favourite == true && x.Category.User.Name == userName)
+            .ToList();
     }
-    public IEnumerable<Product> GetDiscountProducts()
+    //public IEnumerable<Product> GetDiscountProducts(string userName)
+    //{
+    //    return _context.Products.Where(x => x.Discount > 0 && 
+    //    x.Category.User.Name == userName).ToList();
+    //}
+
+    public IEnumerable<Product> GetDiscountProducts(string userName)
     {
-        return _context.Products.Where(x => x.Discount > 0).ToList();
+        return _context.Products
+            .Include(x => x.Category)
+                .ThenInclude(c => c.User)
+            .Where(x => x.Discount > 0 && x.Category.User.Name == userName)
+            .ToList();
     }
 
+    //public IEnumerable<Product> GetHappyHourProducts(string userName)
+    //{
+    //    return _context.Products.Where(x => x.HappyHour == true && 
+    //    x.Category.User.Name == userName).ToList();
+    //}
 
-    public IEnumerable<Product> GetHappyHourProducts()
+    public IEnumerable<Product> GetHappyHourProducts(string userName)
     {
-        return _context.Products.Where(x => x.HappyHour == true).ToList();
+        return _context.Products
+            .Include(x => x.Category)
+                .ThenInclude(c => c.User)
+            .Where(x => x.HappyHour == true && x.Category.User.Name == userName)
+            .ToList();
     }
 
     public void CreateProduct(Product newProduct)
@@ -52,11 +82,11 @@ public class ProductRepository : IProductRepository
     }
 
 
-    public void UpdateProduct(Product updatedProduct, int idProduct)
+    public void UpdateProduct(Product updatedProduct)
     {
-        _context.Products.Update(updatedProduct);
         _context.SaveChanges();
     }
+
 
 
     public void ChangeDiscount(double discount, int idProduct)

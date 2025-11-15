@@ -52,9 +52,9 @@ public class ProductController : ControllerBase
 
     [HttpGet("favourites")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<FavouriteProductsDto>> GetFavouriteProducts()
+    public ActionResult<IEnumerable<FavouriteProductsDto>> GetFavouriteProducts([FromQuery] string userName)
     {
-        var response = _productService.GetFavouriteProducts();
+        var response = _productService.GetFavouriteProducts(userName);
         if (response == null)
         {
             return NotFound();
@@ -65,9 +65,9 @@ public class ProductController : ControllerBase
 
     [HttpGet("discountProducts")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<ProductsWithDiscountDto>> GetDiscountProducts()
+    public ActionResult<IEnumerable<ProductsWithDiscountDto>> GetDiscountProducts([FromQuery] string userName)
     {
-        var response = _productService.GetDiscountProducts();
+        var response = _productService.GetDiscountProducts(userName);
         if (response == null)
         {
             return NotFound();
@@ -78,9 +78,9 @@ public class ProductController : ControllerBase
 
     [HttpGet("happyhour")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<FavouriteProductsDto>> GetHappyHourProducts()
+    public ActionResult<IEnumerable<FavouriteProductsDto>> GetHappyHourProducts([FromQuery] string userName)
     {
-        var response = _productService.GetHappyHourProducts();
+        var response = _productService.GetHappyHourProducts(userName);
         if (response == null)
         {
             return NotFound();
