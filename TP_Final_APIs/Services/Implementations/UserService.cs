@@ -67,27 +67,22 @@ namespace TP_Final_APIs.Services.Implementations
 
         public string? UpdateUser(UpdateUserDto updatedUserDto, int idUser)
         {
-            var validation = CheckIfUserExists(idUser);
-            if (validation == true)
-            {
-                User updatedUser = new User()
-                {
-                    Name = updatedUserDto.Name,
+            var existingUser = _userRepository.GetUser(idUser);
 
-                    Mail = updatedUserDto.Mail,
-                    Status = updatedUserDto.Status,
-                    Phone = updatedUserDto.Phone,
+            if (existingUser == null)
+                return null;
 
-                };
+            existingUser.Name = updatedUserDto.Name;
+            existingUser.Password = updatedUserDto.Password;
+            existingUser.Mail = updatedUserDto.Mail;
+            existingUser.Status = updatedUserDto.Status;
+            existingUser.Phone = updatedUserDto.Phone;
 
-                _userRepository.UpdateUser(updatedUser, idUser);
-                return "Actualización exitosa";
-
-            }
-            else return null;
+            _userRepository.UpdateUser(existingUser);
+            return "Actualización exitosa";
         }
 
-                public bool CheckIfUserExists(int idUser)
+        public bool CheckIfUserExists(int idUser)
                 {
                     var response = _userRepository.CheckIfUserExists(idUser);
                     return response;

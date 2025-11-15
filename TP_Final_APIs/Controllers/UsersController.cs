@@ -52,7 +52,7 @@ namespace TP_Final_APIs.Controllers
                 return NotFound($"Usuario con ID {idUser} no encontrado");
             }
 
-            return NoContent();
+            return Ok("Actualización exitosa");
         }
 
         [HttpDelete("{idUser}")]
