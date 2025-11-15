@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Models.DTOs.Requests;
 using TP_Final_APIs.Models.DTOs.Responses;
@@ -149,21 +150,20 @@ namespace TP_Final_APIs.Services.Implementations
                 var productExist = _productRepository.GetProduct(idProduct.Value);
                 if (productExist != null)
                 {
-                    Product product = new Product()
-                    {
-                        Name = updatedProduct.Name,
-                        Price = updatedProduct.Price,
-                        Description = updatedProduct.Description,
-                        Discount = updatedProduct.Discount,
-                        HappyHour = updatedProduct.HappyHour,
-                        Favourite = updatedProduct.Favourite,
-                        IdCategory = updatedProduct.IdCategory,
-                    };
-                    _productRepository.UpdateProduct(product, idProduct.Value);
+                    
+                    productExist.Name = updatedProduct.Name;
+                    productExist.Price = updatedProduct.Price;
+                    productExist.Description = updatedProduct.Description;
+                    productExist.Discount = updatedProduct.Discount;
+                    productExist.HappyHour = updatedProduct.HappyHour;
+                    productExist.Favourite = updatedProduct.Favourite;
+                    productExist.IdCategory = updatedProduct.IdCategory;
+
+                    _productRepository.UpdateProduct(productExist);
                 }
+               
             }
         }
-
 
 
         public void ChangeDiscount(double discount, string productName)

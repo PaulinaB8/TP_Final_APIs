@@ -55,12 +55,14 @@ namespace TP_Final_APIs.Services.Implementations
                 {
                     edad--;
                 }
+                var categoryList = category.ToList();
 
                 if (edad < 18)
                 {
                     category = category.
                         Where(c => !c.Name.Equals("Bebidas alcohólicas", StringComparison.OrdinalIgnoreCase))
                         .ToList();
+
                 }
 
                 var categoryToReturn = category.Select(c => new CategoryDto
@@ -79,6 +81,9 @@ namespace TP_Final_APIs.Services.Implementations
             }
             return null;
         }
+
+
+
 
 
         public void UpdateCategory(UpdateCategoryDto updatedCategory, string categoryName)
