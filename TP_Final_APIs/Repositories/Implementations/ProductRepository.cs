@@ -52,11 +52,11 @@ public class ProductRepository : IProductRepository
     }
 
 
-    public void UpdateProduct(Product updatedProduct, int idProduct)
+    public void UpdateProduct(Product updatedProduct)
     {
-        _context.Products.Update(updatedProduct);
         _context.SaveChanges();
     }
+
 
 
     public void ChangeDiscount(double discount, int idProduct)
