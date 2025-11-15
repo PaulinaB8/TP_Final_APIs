@@ -24,6 +24,7 @@ namespace TP_Final_APIs.Repositories.Implementations
         public void DeleteUser(int idUser)
         {
             var userDeleted = _context.Users.FirstOrDefault(u => u.Id == idUser);
+            _context.Users.Remove(userDeleted);
             _context.SaveChanges();
         }
 
@@ -59,5 +60,7 @@ namespace TP_Final_APIs.Repositories.Implementations
             var response = _context.Users.FirstOrDefault(c => c.Name.ToLower() == userName.ToLower());
             return response?.Id;
         }
+
+       
     }
 }

@@ -41,30 +41,32 @@ namespace TP_Final_APIs.Controllers
         [HttpPut("{idUser}")]
         public IActionResult UpdateUser([FromBody]UpdateUserDto userDto, [FromRoute]int idUser)
         {
+            var response = _userService.UpdateUser(userDto, idUser);
             if (userDto is null)
             {
                 return BadRequest("Es necesario cargar los datos del usuario para actualizar");
             }
 
-            if (_userService.CheckIfUserExists(idUser) == false)
+            if (response is null)
             {
                 return NotFound($"Usuario con ID {idUser} no encontrado");
             }
 
-            _userService.UpdateUser(userDto, idUser);
             return NoContent();
         }
 
         [HttpDelete("{idUser}")]
         public IActionResult DeleteUser([FromRoute]int idUser)
         {
-            if (_userService.CheckIfUserExists(idUser) == false)
+            var response = _userService.DeleteUser(idUser);
+
+            if (response == null)
             {
                 return NotFound($"El ID {idUser} no fue encontrado");
             }
+            else return NoContent();
 
-            _userService.DeleteUser(idUser);
-            return NoContent();
+            
         }
 
         
