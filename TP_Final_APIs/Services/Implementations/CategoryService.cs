@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Security.Claims;
+using System.Xml.Linq;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Models.DTOs.Requests;
 using TP_Final_APIs.Models.DTOs.Responses;
@@ -33,9 +34,9 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-        public void DeleteCategory(string categoryName)
+        public void DeleteCategory(string categoryName, int userId)
         {
-            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName, userId);
             if (idCategory.HasValue)
             {
                 _categoryRepository.DeleteCategory(idCategory.Value);
@@ -86,29 +87,22 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public void UpdateCategory(UpdateCategoryDto updatedCategory, string categoryName)
+        public bool UpdateCategory(UpdateCategoryDto updatedCategory, string categoryName, int userId)
         {
-            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName, userId);
             if (idCategory.HasValue)
             {
                 var categoryToUpdate = new Category
                 {
                     Id = idCategory.Value,
                     Name = updatedCategory.Name,
-                    Products = updatedCategory.Products
-            .Select(p => new Product
-            {
-
-                Name = p.Name,
-                Price = p.Price,
-                Description = p.Description
-            })
-            .ToList()
                 };
 
 
-                _categoryRepository.UpdateCategory(categoryToUpdate, idCategory.Value);
+                _categoryRepository.UpdateCategory(categoryToUpdate);
+                return true;
             }
+            else return false;
         }
 
 
