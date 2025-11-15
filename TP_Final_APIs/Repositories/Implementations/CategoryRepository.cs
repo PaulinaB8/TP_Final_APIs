@@ -33,17 +33,13 @@ namespace TP_Final_APIs.Repositories.Implementations
             _context.SaveChanges();
         }
 
-        //public IEnumerable<Category> GetCategories(int idUser)
-        //{
-        //    return _context.Categories.Where(c => c.Id == idUser);
-
-        //}
+        
         public IEnumerable<Category> GetCategories(int idUser)
         {
             return _context.Categories
-           .Include(c => c.Products)
-           .Where(c => c.UserId == idUser)
-           .ToList();
+                .Include(c => c.Products)  
+                .Where(c => c.UserId == idUser)
+                .ToList();
         }
 
         public bool CheckIfCategoryExists(int idCategory)
