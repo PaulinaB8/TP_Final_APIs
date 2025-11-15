@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Security.Claims;
 using TP_Final_APIs.Models.DTOs.Requests;
 using TP_Final_APIs.Models.DTOs.Responses;
@@ -26,12 +27,33 @@ public class ProductController : ControllerBase
 
     [HttpGet("category")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromQuery] string userName, [FromQuery] string categoryName)
+    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromQuery] string userName, [FromQuery] string categoryName, [FromQuery] string dateBirth)
     {
         if(string.IsNullOrWhiteSpace(categoryName) | string.IsNullOrWhiteSpace(userName))
         {
             return BadRequest("Ingrese el nombre de la categoría");
         }
+        DateTime fechaNacimiento;
+        string[] formatos = {
+                "dd/MM/yyyy",  // 15/05/2000
+                "dd-MM-yyyy",  // 15-05-2000
+                };
+
+        if (!DateTime.TryParseExact(dateBirth, formatos,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.None,
+            out fechaNacimiento))
+        {
+            return BadRequest("Formato de fecha inválido. Use dd/MM/yyyy, dd-MM-yyyy");
+        }
+
+        var ageValidation = _productService.AgeValidation(fechaNacimiento, categoryName);
+
+        if(ageValidation is false)
+        {
+            return BadRequest("Siendo menor de edad no puede ingresar a la categoría 'Bebidas Alcohólicas'");
+        }
+
         var response = _productService.GetProductsByCategory(categoryName, userName);
         if (response == null)
         {
@@ -57,9 +79,9 @@ public class ProductController : ControllerBase
 
     [HttpGet("favourites")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<FavouriteProductsDto>> GetFavouriteProducts()
+    public ActionResult<IEnumerable<FavouriteProductsDto>> GetFavouriteProducts([FromQuery] string userName)
     {
-        var response = _productService.GetFavouriteProducts();
+        var response = _productService.GetFavouriteProducts(userName);
         if (response == null)
         {
             return NotFound();
@@ -70,9 +92,9 @@ public class ProductController : ControllerBase
 
     [HttpGet("discountProducts")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<ProductsWithDiscountDto>> GetDiscountProducts()
+    public ActionResult<IEnumerable<ProductsWithDiscountDto>> GetDiscountProducts([FromQuery] string userName)
     {
-        var response = _productService.GetDiscountProducts();
+        var response = _productService.GetDiscountProducts(userName);
         if (response == null)
         {
             return NotFound();
@@ -83,9 +105,9 @@ public class ProductController : ControllerBase
 
     [HttpGet("happyhour")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<FavouriteProductsDto>> GetHappyHourProducts()
+    public ActionResult<IEnumerable<FavouriteProductsDto>> GetHappyHourProducts([FromQuery] string userName)
     {
-        var response = _productService.GetHappyHourProducts();
+        var response = _productService.GetHappyHourProducts(userName);
         if (response == null)
         {
             return NotFound();
