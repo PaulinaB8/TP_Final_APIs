@@ -6,9 +6,9 @@ namespace TP_Final_APIs.Repositories.Interfaces
     {
         public IEnumerable<Product> GetProductsByCategory(int idCategory, int userId);
         public Product GetProduct(int idProduct);
-        public IEnumerable<Product> GetFavouriteProducts();
-        public IEnumerable<Product> GetDiscountProducts();
-        public IEnumerable<Product> GetHappyHourProducts();
+        public IEnumerable<Product> GetFavouriteProducts(string userName);
+        public IEnumerable<Product> GetDiscountProducts(string userName);
+        public IEnumerable<Product> GetHappyHourProducts(string userName);
         public void CreateProduct(Product newProduct);
         public void DeleteProduct(int idProduct);
         public void UpdateProduct(Product updatedProduct);

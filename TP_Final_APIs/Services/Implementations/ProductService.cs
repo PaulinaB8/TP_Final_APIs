@@ -74,9 +74,9 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public IEnumerable<FavouriteProductsDto> GetFavouriteProducts()
+        public IEnumerable<FavouriteProductsDto> GetFavouriteProducts(string userName)
         {
-            var products = _productRepository.GetFavouriteProducts();
+            var products = _productRepository.GetFavouriteProducts(userName);
             IEnumerable<FavouriteProductsDto> miEnumerable = products.Select(p => new FavouriteProductsDto()
             {
                 Name = p.Name,
@@ -87,9 +87,9 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-        public IEnumerable<ProductsWithDiscountDto> GetDiscountProducts()
+        public IEnumerable<ProductsWithDiscountDto> GetDiscountProducts(string userName)
         {
-            var products = _productRepository.GetDiscountProducts();
+            var products = _productRepository.GetDiscountProducts(userName);
             IEnumerable<ProductsWithDiscountDto> miEnumerable = products.Select(p => new ProductsWithDiscountDto()
             {
                 Name = p.Name,
@@ -102,9 +102,9 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public IEnumerable<FavouriteProductsDto> GetHappyHourProducts()
+        public IEnumerable<FavouriteProductsDto> GetHappyHourProducts(string userName)
         {
-            var products = _productRepository.GetHappyHourProducts();
+            var products = _productRepository.GetHappyHourProducts(userName);
             IEnumerable<FavouriteProductsDto> miEnumerable = products.Select(p => new FavouriteProductsDto()
             {
                 Name = p.Name,
