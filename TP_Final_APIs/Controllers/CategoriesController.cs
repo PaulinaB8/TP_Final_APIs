@@ -70,12 +70,12 @@ namespace TP_Final_APIs.Controllers
             return Ok("Categoría creada correctamente.");
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteCategory([FromRoute]int id)
+        [HttpDelete]
+        public IActionResult DeleteCategory([FromRoute]string categoryName)
         {
             try
             {
-                _categoryService.DeleteCategory(id);
+                _categoryService.DeleteCategory(categoryName);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
@@ -88,19 +88,24 @@ namespace TP_Final_APIs.Controllers
             }
         }
 
-        [HttpPut("{idCategory}")]
-        public IActionResult UpdateCategory([FromBody]UpdateCategoryDto updatedCategory, [FromRoute]int idCategory)
+        [HttpPut]
+        public IActionResult UpdateCategory([FromBody]UpdateCategoryDto updatedCategory, [FromQuery]string categoryName)
         {
+
             if (updatedCategory == null)
             {
+<<<<<<< HEAD
                 return BadRequest("Es necesario cargar datos en la categoría para actualizar.");
             }
             if (_categoryService.CheckIfCategoryExists(idCategory) == false)
             {
                 return NotFound($"Usuario con ID {idCategory} no encontrado");
+=======
+                return BadRequest("Se requiere la información de la categoría para actualizarla.");
+>>>>>>> 146b078b44008f9b02f7b118e7c4e48f6ea907ab
             }
 
-            _categoryService.UpdateCategory(updatedCategory, idCategory);
+            _categoryService.UpdateCategory(updatedCategory, categoryName);
 
             return NoContent();
         }

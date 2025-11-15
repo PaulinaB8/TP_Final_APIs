@@ -63,50 +63,42 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public IEnumerable<ProductDto> GetFavouriteProducts()
+        public IEnumerable<FavouriteProductsDto> GetFavouriteProducts()
         {
             var products = _productRepository.GetFavouriteProducts();
-            IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
+            IEnumerable<FavouriteProductsDto> miEnumerable = products.Select(p => new FavouriteProductsDto()
             {
                 Name = p.Name,
                 Price = p.Price,
-                Description = p.Description,
-                Discount = p.Discount,
-                HappyHour = p.HappyHour,
-                Favourite = p.Favourite
+                Description = p.Description
             }).ToList();
             return miEnumerable;
         }
 
 
-        public IEnumerable<ProductDto> GetDiscountProducts()
+        public IEnumerable<ProductsWithDiscountDto> GetDiscountProducts()
         {
             var products = _productRepository.GetDiscountProducts();
-            IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
+            IEnumerable<ProductsWithDiscountDto> miEnumerable = products.Select(p => new ProductsWithDiscountDto()
             {
                 Name = p.Name,
                 Price = p.Price,
                 Description = p.Description,
-                Discount = p.Discount,
-                HappyHour = p.HappyHour,
-                Favourite = p.Favourite
+                Discount = p.Discount
             }).ToList();
             return miEnumerable;
         }
 
 
 
-        public IEnumerable<ProductDto> GetHappyHourProducts()
+        public IEnumerable<FavouriteProductsDto> GetHappyHourProducts()
         {
             var products = _productRepository.GetHappyHourProducts();
-            IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
+            IEnumerable<FavouriteProductsDto> miEnumerable = products.Select(p => new FavouriteProductsDto()
             {
                 Name = p.Name,
                 Price = p.Price,
-                Description = p.Description,
-                Discount = p.Discount,
-                HappyHour = p.HappyHour,
-                Favourite = p.Favourite
+                Description = p.Description
                 
             }).ToList();
             return miEnumerable;

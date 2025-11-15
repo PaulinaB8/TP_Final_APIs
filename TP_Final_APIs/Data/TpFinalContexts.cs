@@ -34,12 +34,12 @@ public class TpFinalContexts : DbContext
         
 
         
-        var luis = new User
+        var viaPizza = new User
         {
             Id = 1,
-            Name = "Luis",
-            Password = "lamismadesiempre",
-            Mail = "luis@gmail.com",
+            Name = "Via Pizza",
+            Password = "viapizzapassword",
+            Mail = "viapizza@gmail.com",
             Status = true,
             Phone = "34112345"
         };
@@ -104,7 +104,7 @@ public class TpFinalContexts : DbContext
         };
 
         
-        modelBuilder.Entity<User>().HasData(luis);
+        modelBuilder.Entity<User>().HasData(viaPizza);
         modelBuilder.Entity<Category>().HasData(entradas, principales, bebidas);
         modelBuilder.Entity<Product>().HasData(rabas, milanesa, cocaCola);
     }
