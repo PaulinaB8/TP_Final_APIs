@@ -18,7 +18,7 @@ namespace TP_Final_APIs.Services.Interfaces
          void ChangeDiscount(double discount, string productName);
          string ApplyHappyHour(string productName);
 
-        ProductDto GetProductWithDiscount(string productName);
+        ProductWithDiscountDto GetProductWithDiscount(string productName);
         ProductPriceDto GetProductFinalPrice(string productName);
 
     }
