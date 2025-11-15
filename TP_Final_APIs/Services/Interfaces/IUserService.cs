@@ -8,8 +8,8 @@ namespace TP_Final_APIs.Services.Interfaces
     {
         IEnumerable<UserDto> GetAllRestaurants();
         UserDto CreateRestaurant(CreateUserDto newRestaurantDto);
-        void DeleteUser(int idUser);
-        void UpdateUser(UpdateUserDto updatedUserDto, int idUser);
+        string? DeleteUser(int idUser);
+        string? UpdateUser(UpdateUserDto updatedUserDto, int idUser);
         bool CheckIfUserExists(int idUser);
         User? Authenticate(string email, string password);
 

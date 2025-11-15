@@ -42,6 +42,7 @@ namespace TP_Final_APIs.Repositories.Implementations
         {
             return _context.Categories
            .Include(c => c.Products)
+           .Where(c => c.UserId == idUser)
            .ToList();
         }
 
