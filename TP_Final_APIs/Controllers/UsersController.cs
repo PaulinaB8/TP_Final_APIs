@@ -27,7 +27,7 @@ namespace TP_Final_APIs.Controllers
         }
 
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult CreateRestaurant([FromBody]CreateUserDto userDto)
         {
             if (userDto == null)
