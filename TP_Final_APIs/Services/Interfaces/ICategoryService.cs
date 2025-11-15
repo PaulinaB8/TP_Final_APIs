@@ -5,7 +5,7 @@ namespace TP_Final_APIs.Services.Interfaces
 {
     public interface ICategoryService
     {
-        IEnumerable<CategoryDto> GetCategories(int idUser, DateTime dateBirth);
+        IEnumerable<CategoryDto> GetCategories(string userName, DateTime dateBirth);
         void CreateCategory(int userId, CreateCategoryDto newCategory);
         void DeleteCategory(int idCategory);
         void UpdateCategory(UpdateCategoryDto updatedCategory, int idCategory);

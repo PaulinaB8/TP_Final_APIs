@@ -24,9 +24,9 @@ namespace TP_Final_APIs.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("{idUser}")]
+        [HttpGet]
         [AllowAnonymous]
-        public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromRoute]int idUser, [FromQuery]string dateBirth)
+        public ActionResult<IEnumerable<CategoryDto>> GetCategories([FromQuery]string userName, [FromQuery]string dateBirth)
         {
             // Validar y parsear la fecha
             DateTime fechaNacimiento;
@@ -43,7 +43,7 @@ namespace TP_Final_APIs.Controllers
                 return BadRequest("Formato de fecha inválido. Use dd/MM/yyyy, dd-MM-yyyy");
             }
 
-            var response = _categoryService.GetCategories(idUser, fechaNacimiento);
+            var response = _categoryService.GetCategories(userName, fechaNacimiento);
 
             if (response == null)
             {

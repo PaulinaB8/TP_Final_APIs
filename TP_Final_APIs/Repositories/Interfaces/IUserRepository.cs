@@ -10,5 +10,6 @@ namespace TP_Final_APIs.Repositories.Interfaces
         void UpdateUser(User updatedUser, int idUser);
         bool CheckIfUserExists(int idUser);
         User? GetByEmail(string email);
+        int? GetUserByName(string userName);
     }
 }
