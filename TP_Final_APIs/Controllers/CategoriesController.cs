@@ -94,15 +94,7 @@ namespace TP_Final_APIs.Controllers
 
             if (updatedCategory == null)
             {
-<<<<<<< HEAD
                 return BadRequest("Es necesario cargar datos en la categoría para actualizar.");
-            }
-            if (_categoryService.CheckIfCategoryExists(idCategory) == false)
-            {
-                return NotFound($"Usuario con ID {idCategory} no encontrado");
-=======
-                return BadRequest("Se requiere la información de la categoría para actualizarla.");
->>>>>>> 146b078b44008f9b02f7b118e7c4e48f6ea907ab
             }
 
             _categoryService.UpdateCategory(updatedCategory, categoryName);

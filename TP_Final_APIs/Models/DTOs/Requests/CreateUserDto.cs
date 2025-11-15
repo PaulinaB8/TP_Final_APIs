@@ -10,7 +10,7 @@ namespace TP_Final_APIs.Models.DTOs.Requests
         [StringLength(50)]
         public string Name { get; set; }
         [Required]
-        [StringLength(8)]
+        [MinLength(8)]
         public string Password { get; set; }
         [Required]
         [EmailAddress]
