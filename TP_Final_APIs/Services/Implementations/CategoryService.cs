@@ -95,16 +95,7 @@ namespace TP_Final_APIs.Services.Implementations
                 {
                     Id = idCategory.Value,
                     Name = updatedCategory.Name,
-                    Products = updatedCategory.Products
-            .Select(p => new Product
-            {
-
-                Name = p.Name,
-                Price = p.Price,
-                Description = p.Description
-            })
-            .ToList()
-                };
+             };
 
 
                 _categoryRepository.UpdateCategory(categoryToUpdate, idCategory.Value);
