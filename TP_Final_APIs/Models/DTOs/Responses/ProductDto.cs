@@ -14,5 +14,6 @@ namespace TP_Final_APIs.Models.DTOs.Responses
         public double Discount { get; set; } = 0;
         public bool HappyHour { get; set; } 
         public bool Favourite { get; set; }
+        public double FinalPrice { get; set; }
     }
 }
