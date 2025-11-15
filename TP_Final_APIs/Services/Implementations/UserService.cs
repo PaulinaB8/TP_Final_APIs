@@ -41,9 +41,16 @@ namespace TP_Final_APIs.Services.Implementations
 
         }
 
-        public void DeleteUser(int idUser)
+        public string? DeleteUser(int idUser)
         {
-            _userRepository.DeleteUser(idUser);
+            var validation = CheckIfUserExists(idUser);
+            if (validation == true)
+            {
+                _userRepository.DeleteUser(idUser);
+                return "Borrado exitoso";
+            }
+            else return null;
+           
         }
 
         public IEnumerable<UserDto> GetAllRestaurants()
@@ -58,27 +65,33 @@ namespace TP_Final_APIs.Services.Implementations
             return IEnumerable;
         }
 
-        public void UpdateUser(UpdateUserDto updatedUserDto, int idUser)
+        public string? UpdateUser(UpdateUserDto updatedUserDto, int idUser)
         {
-            User updatedUser = new User()
+            var validation = CheckIfUserExists(idUser);
+            if (validation == true)
             {
-                Name = updatedUserDto.Name,
-              
-                Mail = updatedUserDto.Mail,
-                Status = updatedUserDto.Status,
-                Phone = updatedUserDto.Phone,
-                 
-            };
+                User updatedUser = new User()
+                {
+                    Name = updatedUserDto.Name,
 
-            _userRepository.UpdateUser(updatedUser, idUser);
-            
+                    Mail = updatedUserDto.Mail,
+                    Status = updatedUserDto.Status,
+                    Phone = updatedUserDto.Phone,
+
+                };
+
+                _userRepository.UpdateUser(updatedUser, idUser);
+                return "Actualización exitosa";
+
+            }
+            else return null;
         }
 
-        public bool CheckIfUserExists(int idUser)
-        {
-            var response = _userRepository.CheckIfUserExists(idUser);
-            return response;
-        }
+                public bool CheckIfUserExists(int idUser)
+                {
+                    var response = _userRepository.CheckIfUserExists(idUser);
+                    return response;
+                }
 
         public User? Authenticate(string email, string password)
         {
