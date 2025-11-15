@@ -33,13 +33,10 @@ namespace TP_Final_APIs.Repositories.Implementations
             return _context.Users;
         }
 
-        
-
-        public void UpdateUser(User updatedUser, int idUser)
+        public void UpdateUser(User updatedUser)
         {
             _context.Users.Update(updatedUser);
-            _context.SaveChanges();
-            
+            _context.SaveChanges(); 
         }
 
         public bool CheckIfUserExists(int idUser)
@@ -59,6 +56,11 @@ namespace TP_Final_APIs.Repositories.Implementations
         {
             var response = _context.Users.FirstOrDefault(c => c.Name.ToLower() == userName.ToLower());
             return response?.Id;
+        }
+
+        public User? GetUser(int idUser)
+        {
+            return _context.Users.FirstOrDefault(x => x.Id == idUser);
         }
 
        

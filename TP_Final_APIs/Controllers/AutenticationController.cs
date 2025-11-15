@@ -36,8 +36,8 @@ public class AuthenticationController : ControllerBase
 
             var claimsForToken = new List<Claim>
             {
-                new Claim("sub", user.Id.ToString()),
-                //new Claim("role", user.Role)
+                new Claim("sub", user.Id.ToString()), //ingresar el id del token con sub 
+               
             };
 
             var jwtSecurityToken = new JwtSecurityToken(

@@ -8,7 +8,6 @@ namespace TP_Final_APIs.Models.DTOs.Requests
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
-        public ICollection<ProductToListDto>? Products { get; set; } = new List<ProductToListDto>();
-        public int UserId { get; set; }
+        
     }
 }

@@ -6,14 +6,14 @@ namespace TP_Final_APIs.Services.Interfaces
 {
     public interface IProductService
     {
-         IEnumerable<ProductDto> GetProductsByCategory(string categoryName);
+         IEnumerable<ProductDto> GetProductsByCategory(string categoryName, string userName);
          ProductDto GetProduct(string productName);
          IEnumerable<FavouriteProductsDto> GetFavouriteProducts(string userName);
          IEnumerable<ProductsWithDiscountDto> GetDiscountProducts(string userName);
          IEnumerable<FavouriteProductsDto> GetHappyHourProducts(string userName);
 
-        void CreateProduct(CreateProductDto newProduct, string categoryName);
-         void DeleteProduct(string productName);
+        void CreateProduct(CreateProductDto newProduct, string categoryName, int userId);
+         void DeleteProduct(string productName, int userId);
          void UpdateProduct(UpdateProductDto updatedProduct, string productName);
          void ChangeDiscount(double discount, string productName);
          string ApplyHappyHour(string productName);

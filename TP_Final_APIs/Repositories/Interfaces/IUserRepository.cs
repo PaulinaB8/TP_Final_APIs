@@ -7,9 +7,10 @@ namespace TP_Final_APIs.Repositories.Interfaces
         IEnumerable<User> GetAllRestaurants();
         void CreateRestaurant(User newRestaurant);
         void DeleteUser(int idUser);
-        void UpdateUser(User updatedUser, int idUser);
+        void UpdateUser(User updatedUser);
         bool CheckIfUserExists(int idUser);
         User? GetByEmail(string email);
         int? GetUserByName(string userName);
+        User? GetUser(int idUser);
     }
 }

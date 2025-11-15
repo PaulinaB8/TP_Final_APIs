@@ -4,7 +4,7 @@ namespace TP_Final_APIs.Repositories.Interfaces
 {
     public interface IProductRepository
     {
-        public IEnumerable<Product> GetProductsByCategory(int idCategory);
+        public IEnumerable<Product> GetProductsByCategory(int idCategory, int userId);
         public Product GetProduct(int idProduct);
         public IEnumerable<Product> GetFavouriteProducts(string userName);
         public IEnumerable<Product> GetDiscountProducts(string userName);
@@ -14,7 +14,7 @@ namespace TP_Final_APIs.Repositories.Interfaces
         public void UpdateProduct(Product updatedProduct);
         public void ChangeDiscount(double discount, int idProduct);
         public string ApplyHappyHour(int idProduct);
-
         public int? GetProductByName(string productName);
+        //public int? GetProductByNameWithVerification(string productName, int userId);
     }
 }

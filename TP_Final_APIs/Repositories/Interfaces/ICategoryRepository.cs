@@ -6,12 +6,12 @@ namespace TP_Final_APIs.Repositories.Interfaces
     {
         IEnumerable<Category> GetCategories(int idUser);
         
-        void UpdateCategory(Category updatedCategory, int idCategory);
+        void UpdateCategory(Category updatedCategory);
         void DeleteCategory(int idCategory);
         void CreateCategory(Category newCategory); 
         bool CheckIfCategoryExists(int idCategory);
 
-        public int? GetCategoryByName(string name);
+        public int? GetCategoryByName(string name, int userId =0);
 
     }
 }
