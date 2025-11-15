@@ -206,7 +206,7 @@ namespace TP_Final_APIs.Services.Implementations
             else return "No se encontró el producto";
         }
 
-<<<<<<< HEAD
+
         public ProductDto GetProductWithDiscount(string productName)
         {
             
@@ -266,30 +266,7 @@ namespace TP_Final_APIs.Services.Implementations
                 Name = product.Name,
                 FinalPrice = finalPrice
             };
-=======
-        public void ApplyDiscountToProducts(List<string> productNames, double percentage)
-        {
-            if (percentage <= 0)
-            {
-                throw new ArgumentException("El porcentaje debe ser mayor a 0");
-            }
 
-            foreach (var productName in productNames)
-            {
-               
-                var productId = _productRepository.GetProductByName(productName);
-
-                if (productId.HasValue)
-                {
-                    var product = _productRepository.GetProduct(productId.Value);
-                    if (product != null)
-                    {
-                        product.Discount = percentage;
-                        _productRepository.UpdateProduct(product, productId.Value);
-                    }
-                }
-            }
->>>>>>> 3bb738d2b0e082a41b14f7d7194d0122ad04bdeb
         }
 
     }

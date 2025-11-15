@@ -17,11 +17,9 @@ namespace TP_Final_APIs.Services.Interfaces
          void UpdateProduct(UpdateProductDto updatedProduct, string productName);
          void ChangeDiscount(double discount, string productName);
          string ApplyHappyHour(string productName);
-<<<<<<< HEAD
+
         ProductDto GetProductWithDiscount(string productName);
         ProductPriceDto GetProductFinalPrice(string productName);
-=======
-        void ApplyDiscountToProducts(List<string> productNames, double percentage);
->>>>>>> 3bb738d2b0e082a41b14f7d7194d0122ad04bdeb
+
     }
 }
