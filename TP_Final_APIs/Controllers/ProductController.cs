@@ -26,9 +26,13 @@ public class ProductController : ControllerBase
 
     [HttpGet("category")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromQuery] string categoryName)
+    public ActionResult<IEnumerable<ProductDto>> GetProductsByCategory([FromQuery] string userName, [FromQuery] string categoryName)
     {
-        var response = _productService.GetProductsByCategory(categoryName);
+        if(string.IsNullOrWhiteSpace(categoryName) | string.IsNullOrWhiteSpace(userName))
+        {
+            return BadRequest("Ingrese el nombre de la categoría");
+        }
+        var response = _productService.GetProductsByCategory(categoryName, userName);
         if (response == null)
         {
             return NotFound();
@@ -91,7 +95,6 @@ public class ProductController : ControllerBase
 
 
     [HttpPost]
-
     public ActionResult CreateProduct([FromBody]CreateProductDto newProduct, [FromQuery] string categoryName)
     {
         var claim = User.FindFirst("sum")
@@ -111,7 +114,17 @@ public class ProductController : ControllerBase
     {
         if (string.IsNullOrWhiteSpace(productName))
             return BadRequest("Debe especificar el nombre del producto.");
-        _productService.DeleteProduct(productName);
+
+
+        var claim = User.FindFirst("sum")
+                        ?? User.FindFirst(ClaimTypes.NameIdentifier);
+
+        if (claim == null) return Unauthorized("El token no tiene id de usuario");
+
+        int userId = int.Parse(claim.Value);
+
+        
+        _productService.DeleteProduct(productName, userId);
         return Ok("Producto eliminado");
     }
 
@@ -127,6 +140,10 @@ public class ProductController : ControllerBase
 
     public ActionResult ChangeDiscount([FromQuery]double discount, [FromQuery] string productName)
     {
+        if(discount < 0 | discount > 100)
+        {
+            return BadRequest("Ingrese un descuento superior a 0 e ineferior a 100");
+        }
         _productService.ChangeDiscount(discount, productName);
         return Ok("Se cambió el descuento");
     }

@@ -10,21 +10,23 @@ namespace TP_Final_APIs.Services.Implementations
 {
     public class ProductService :IProductService
     {
-        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository, IUserRepository userRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
+            _userRepository = userRepository;
         }
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public IEnumerable<ProductDto> GetProductsByCategory(string categoryName)
+        private readonly IUserRepository _userRepository;
+        public IEnumerable<ProductDto> GetProductsByCategory(string categoryName, string userName)
         {
-            int userId = 0;
-            var idCategory = _categoryRepository.GetCategoryByName(categoryName, userId);
+            var idCategory = _categoryRepository.GetCategoryByName(categoryName);
+            var idUser = _userRepository.GetUserByName(userName);
 
-            if (idCategory.HasValue)
+            if (idCategory.HasValue && idUser.HasValue)
             {
-                var products = _productRepository.GetProductsByCategory(idCategory.Value);
+                var products = _productRepository.GetProductsByCategory(idCategory.Value, idUser.Value);
                 IEnumerable<ProductDto> miEnumerable = products.Select(p => new ProductDto()
                 {
                     Name = p.Name,
@@ -131,7 +133,7 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-        public void DeleteProduct(string productName)
+        public void DeleteProduct(string productName, int userId)
         {
             var idProduct = _productRepository.GetProductByName(productName);
             Console.WriteLine(productName);

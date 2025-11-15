@@ -58,7 +58,7 @@ namespace TP_Final_APIs.Repositories.Implementations
 
         }
 
-        public int? GetCategoryByName (string name, int userId)
+        public int? GetCategoryByName (string name, int userId = 0)
         {
             if (userId == 0)
             {

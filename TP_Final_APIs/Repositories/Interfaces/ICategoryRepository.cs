@@ -11,7 +11,7 @@ namespace TP_Final_APIs.Repositories.Interfaces
         void CreateCategory(Category newCategory); 
         bool CheckIfCategoryExists(int idCategory);
 
-        public int? GetCategoryByName(string name, int userId);
+        public int? GetCategoryByName(string name, int userId =0);
 
     }
 }
