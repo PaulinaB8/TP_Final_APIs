@@ -16,14 +16,19 @@ public class ProductRepository : IProductRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public IEnumerable<Product> GetProductsByCategory(int idCategory)
+    public IEnumerable<Product>? GetProductsByCategory(int idCategory, int userId)
     {
-        return _context.Products.Where(x => x.IdCategory == idCategory).ToList();
+        var category = _context.Categories.FirstOrDefault(c => c.Id == idCategory && c.UserId == userId);
+        if(category is not null)
+        {
+            return _context.Products.Where(x => x.IdCategory == idCategory).ToList();
+        }
+        return null;
     }
     public Product? GetProduct(int idProduct)
     {
         return _context.Products.FirstOrDefault(x => x.Id == idProduct);
-        
+
     }
     public IEnumerable<Product> GetFavouriteProducts()
     {
@@ -89,4 +94,20 @@ public class ProductRepository : IProductRepository
         var response = _context.Products.FirstOrDefault(c => c.Name.ToLower() == productName.ToLower());
         return response?.Id;
     }
+
+
+    //public int? GetProductByName(string productName, int userId)
+    //{
+    //    var response = _context.Products.FirstOrDefault(c => c.Name.ToLower() == productName.ToLower());
+    //    if (response != null)
+    //    {
+    //        var validitionCategory = _context.Categories.FirstOrDefault(c => c.Id == response.IdCategory && c.UserId == userId);
+    //        if (validitionCategory != null)
+    //        {
+    //            return response?.Id;
+    //        }
+
+    //    }
+    //    return null;
+    //}
 }
