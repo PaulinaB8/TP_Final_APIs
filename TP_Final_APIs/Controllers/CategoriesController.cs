@@ -94,7 +94,7 @@ namespace TP_Final_APIs.Controllers
 
             if (updatedCategory == null)
             {
-                return BadRequest("Se requiere la información de la categoría para actualizarla.");
+                return BadRequest("Es necesario cargar datos en la categoría para actualizar.");
             }
 
             _categoryService.UpdateCategory(updatedCategory, categoryName);
