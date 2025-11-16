@@ -12,6 +12,7 @@ namespace TP_Final_APIs.Repositories.Interfaces
         bool CheckIfCategoryExists(int idCategory);
 
         public int? GetCategoryByName(string name, int userId =0);
+        public Category? GetCategory(int idCategory);
 
     }
 }

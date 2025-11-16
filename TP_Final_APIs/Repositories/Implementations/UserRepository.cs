@@ -54,7 +54,7 @@ namespace TP_Final_APIs.Repositories.Implementations
 
         public int? GetUserByName (string userName)
         {
-            var response = _context.Users.FirstOrDefault(c => c.Name.ToLower() == userName.ToLower());
+            var response = _context.Users.FirstOrDefault(c => c.Name.Trim().ToLower() == userName.Trim().ToLower());
             return response?.Id;
         }
 

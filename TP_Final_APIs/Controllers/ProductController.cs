@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 using System.Globalization;
 using System.Security.Claims;
 using TP_Final_APIs.Models.DTOs.Requests;
@@ -66,9 +67,14 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public ActionResult<ProductDto> GetProduct([FromQuery] string productName)
+    public ActionResult<ProductDto> GetProduct([FromQuery] string productName, [FromQuery] string userName)
     {
-        var response = _productService.GetProduct(productName);
+        if (string.IsNullOrWhiteSpace(productName) | string.IsNullOrWhiteSpace(userName))
+        {
+            return BadRequest("Ingrese el nombre del producto y el restaurante");
+        }
+
+        var response = _productService.GetProduct(productName, userName);
         if (response == null)
         {
             return NotFound();
@@ -126,8 +132,16 @@ public class ProductController : ControllerBase
 
         int userId = int.Parse(claim.Value);
 
-        _productService.CreateProduct(newProduct, categoryName, userId);
-        return Ok("Producto creado");
+        var response = _productService.CreateProduct(newProduct, categoryName, userId);
+        if(response == null)
+        {
+            return BadRequest("El producto ya se encuentra creado para el usuario");
+        }
+        else if (response == "El usuario no tiene la categoría")
+        {
+            return BadRequest("La categoría ingresada no corresponde al usuario");
+        }
+            return Ok("Producto creado");
 
     }
 
@@ -145,10 +159,16 @@ public class ProductController : ControllerBase
 
         int userId = int.Parse(claim.Value);
 
-        
-        _productService.DeleteProduct(productName, userId);
+
+        var response = _productService.DeleteProduct(productName, userId);
+        if (!response)
+        {
+            return NotFound("Producto no encontrado o no pertenece al usuario.");
+        }
+
         return Ok("Producto eliminado");
     }
+
 
 
     [HttpPut]

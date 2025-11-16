@@ -40,7 +40,7 @@ public class ProductRepository : IProductRepository
     public IEnumerable<Product> GetFavouriteProducts(string userName)
     {
         return _context.Products
-            .Include(x => x.Category)
+                .Include(x => x.Category)
                 .ThenInclude(c => c.User)
             .Where(x => x.Favourite == true && x.Category.User.Name == userName)
             .ToList();
@@ -121,23 +121,36 @@ public class ProductRepository : IProductRepository
 
     public int? GetProductByName(string productName)
     {
-        var response = _context.Products.FirstOrDefault(c => c.Name.ToLower() == productName.ToLower());
+        var response = _context.Products.FirstOrDefault(c => c.Name.Trim().ToLower() == productName.Trim().ToLower());
         return response?.Id;
     }
 
 
-    //public int? GetProductByName(string productName, int userId)
-    //{
-    //    var response = _context.Products.FirstOrDefault(c => c.Name.ToLower() == productName.ToLower());
-    //    if (response != null)
-    //    {
-    //        var validitionCategory = _context.Categories.FirstOrDefault(c => c.Id == response.IdCategory && c.UserId == userId);
-    //        if (validitionCategory != null)
-    //        {
-    //            return response?.Id;
-    //        }
+    public int? GetProductByName(string productName, int userId)
+    {
+        var response = _context.Products.FirstOrDefault(c => c.Name.ToLower() == productName.ToLower());
+        if (response != null)
+        {
+            var validitionCategory = _context.Categories.FirstOrDefault(c => c.Id == response.IdCategory && c.UserId == userId);
+            if (validitionCategory != null)
+            {
+                return response?.Id;
+            }
 
-    //    }
-    //    return null;
-    //}
-}
+        }
+        return null;
+    }
+
+    public bool CheckIfProductExists (string productName, int userId)
+    {
+        
+                return _context.Products
+                    .Include(x => x.Category)
+                    .ThenInclude(x => x.User)
+                    .Any(x => x.Name.Trim().ToLower() == productName.Trim().ToLower() && x.Category.User.Id == userId);
+           
+
+        }
+
+    }
+
