@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Security.Claims;
+using System.Text;
 using TP_Final_APIs.Data;
 using TP_Final_APIs.Entities;
 using TP_Final_APIs.Repositories.Interfaces;
@@ -58,17 +60,55 @@ namespace TP_Final_APIs.Repositories.Implementations
 
         }
 
-        public int? GetCategoryByName (string name, int userId = 0)
+        //public int? GetCategoryByName (string name, int userId = 0)
+        //{
+        //    if (userId == 0)
+        //    {
+        //        var response =_context.Categories.FirstOrDefault(c => c.Name.Trim().ToLower() == name.Trim().ToLower());
+        //        return response?.Id;
+        //    }
+        //    else {
+        //        var response = _context.Categories.FirstOrDefault(c => c.Name.Trim().ToLower() == name.Trim().ToLower() && c.UserId == userId);
+        //        return response?.Id;
+        //    }
+        //}
+        public int? GetCategoryByName(string name, int userId = 0)
         {
             if (userId == 0)
             {
-                var response =_context.Categories.FirstOrDefault(c => c.Name.Trim().ToLower() == name.Trim().ToLower());
+                var response = _context.Categories
+                    .AsEnumerable() // Trae a memoria para poder usar RemoveAccents
+                    .FirstOrDefault(c => RemoveAccents(c.Name.Trim()).Equals(RemoveAccents(name.Trim()), StringComparison.OrdinalIgnoreCase));
                 return response?.Id;
             }
-            else {
-                var response = _context.Categories.FirstOrDefault(c => c.Name.Trim().ToLower() == name.Trim().ToLower() && c.UserId == userId);
+            else
+            {
+                var response = _context.Categories
+                    .Where(c => c.UserId == userId) // Filtra por userId en la BD primero
+                    .AsEnumerable() // Luego trae a memoria
+                    .FirstOrDefault(c => RemoveAccents(c.Name.Trim()).Equals(RemoveAccents(name.Trim()), StringComparison.OrdinalIgnoreCase));
                 return response?.Id;
             }
+        }
+
+        public string RemoveAccents(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+
+            var normalizedString = text.Normalize(NormalizationForm.FormD);
+            var stringBuilder = new StringBuilder();
+
+            foreach (var c in normalizedString)
+            {
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
 
         public Category? GetCategory(int idCategory)

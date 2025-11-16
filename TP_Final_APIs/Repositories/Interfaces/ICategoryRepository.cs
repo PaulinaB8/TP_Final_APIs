@@ -13,6 +13,7 @@ namespace TP_Final_APIs.Repositories.Interfaces
 
         public int? GetCategoryByName(string name, int userId =0);
         public Category? GetCategory(int idCategory);
+        public string RemoveAccents(string text);
 
     }
 }

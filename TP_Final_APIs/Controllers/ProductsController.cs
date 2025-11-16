@@ -14,9 +14,9 @@ namespace TP_Final_APIs.Controllers;
 [ApiController]
 [Authorize]
 
-public class ProductController : ControllerBase
+public class ProductsController : ControllerBase
 {
-    public ProductController(IProductService productService)
+    public ProductsController(IProductService productService)
     {
         _productService = productService;
     }
@@ -111,8 +111,28 @@ public class ProductController : ControllerBase
 
     [HttpGet("happyhour")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<FavouriteProductsDto>> GetHappyHourProducts([FromQuery] string userName)
+    public ActionResult<IEnumerable<FavouriteProductsDto>> GetHappyHourProducts([FromQuery] string userName, [FromQuery] string dateBirth)
     {
+        DateTime fechaNacimiento;
+        string[] formatos = {
+                "dd/MM/yyyy",  // 15/05/2000
+                "dd-MM-yyyy",  // 15-05-2000
+                };
+
+        if (!DateTime.TryParseExact(dateBirth, formatos,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.None,
+            out fechaNacimiento))
+        {
+            return BadRequest("Formato de fecha inválido. Use dd/MM/yyyy, dd-MM-yyyy");
+        }
+
+        var ageValidation = _productService.AgeValidation(fechaNacimiento);
+
+        if (ageValidation is false)
+        {
+            return BadRequest("Siendo menor de edad no puede acceder a los productos del 'Happy Hour'. ");
+        }
         var response = _productService.GetHappyHourProducts(userName);
         if (response == null)
         {
@@ -172,9 +192,28 @@ public class ProductController : ControllerBase
 
 
     [HttpPut]
-    public ActionResult UpdateProduct([FromBody]UpdateProductDto updatedProduct, [FromQuery]string productName)
+    public ActionResult UpdateProduct([FromBody] UpdateProductDto updatedProduct, [FromQuery] string productName)
     {
-        _productService.UpdateProduct(updatedProduct, productName);
+        if (string.IsNullOrWhiteSpace(productName))
+            return BadRequest("Debe especificar el nombre del producto");
+
+
+        var claim = User.FindFirst("sum")
+                        ?? User.FindFirst(ClaimTypes.NameIdentifier);
+
+        if (claim == null) return Unauthorized("El token no tiene id de usuario");
+
+        int userId = int.Parse(claim.Value);
+
+        string response = _productService.UpdateProduct(updatedProduct, productName, userId);
+        if (response == "El producto no existe")
+        {
+            return NotFound("El producto no fue encontrado o no pertenece al usuario");
+        }
+        else if (response == "El nombre del producto al que se quiere actualizar ya existe")
+        {
+            return BadRequest("El producto ya existe para el usuario");
+        }
         return Ok("Producto editado");
     }
 
