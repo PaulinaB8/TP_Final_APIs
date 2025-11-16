@@ -62,13 +62,18 @@ namespace TP_Final_APIs.Repositories.Implementations
         {
             if (userId == 0)
             {
-                var response =_context.Categories.FirstOrDefault(c => c.Name.ToLower() == name.ToLower());
+                var response =_context.Categories.FirstOrDefault(c => c.Name.Trim().ToLower() == name.Trim().ToLower());
                 return response?.Id;
             }
             else {
-                var response = _context.Categories.FirstOrDefault(c => c.Name.ToLower() == name.ToLower() && c.UserId == userId);
+                var response = _context.Categories.FirstOrDefault(c => c.Name.Trim().ToLower() == name.Trim().ToLower() && c.UserId == userId);
                 return response?.Id;
             }
+        }
+
+        public Category? GetCategory(int idCategory)
+        {
+            return _context.Categories.FirstOrDefault(c => c.Id == idCategory);
         }
     }
 }

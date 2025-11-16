@@ -49,28 +49,46 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
         
-        public ProductDto? GetProduct(string productName)
-        {
-            int? idProduct = _productRepository.GetProductByName(productName);
-            if (idProduct.HasValue)
-            {
-                var product = _productRepository.GetProduct(idProduct.Value);
-                if (product == null)
-                    return null;
+        
 
-                return new ProductDto
-                {
-                    Name = product.Name,
-                    Price = product.Price,
-                    Description = product.Description,
-                    Discount = product.Discount,
-                    HappyHour = product.HappyHour,
-                    Favourite = product.Favourite
-                };
-            }
-            else return null;
+        public ProductDto? GetProduct(string productName, string userName)
+        {
+  
+            var idUser = _userRepository.GetUserByName(userName);
+            if (!idUser.HasValue)
+                return null;
+
+            int userId = idUser.Value;
+
             
+            var productId = _productRepository.GetProductByName(productName);
+            if (!productId.HasValue)
+                return null;
+
+            
+            Product? product = _productRepository.GetProduct(productId.Value);
+            if (product == null)
+                return null;
+
+            var category = _categoryRepository.GetCategory(product.IdCategory);
+
+
+            if (category.UserId != userId)
+            {
+                return null;
+            }
+
+            return new ProductDto
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                Discount = product.Discount,
+                HappyHour = product.HappyHour,
+                Favourite = product.Favourite
+            };
         }
+
 
 
 
@@ -118,8 +136,13 @@ namespace TP_Final_APIs.Services.Implementations
 
 
 
-        public void CreateProduct(CreateProductDto newProduct, string categoryName, int userId)
+        public string? CreateProduct(CreateProductDto newProduct, string categoryName, int userId)
         {
+            var validationProduct = CheckIfProductExists(newProduct.Name, userId);
+            if(validationProduct)
+            {
+                return null;
+            }
             var idCategory = _categoryRepository.GetCategoryByName(categoryName, userId);
 
             if (idCategory.HasValue)
@@ -136,20 +159,23 @@ namespace TP_Final_APIs.Services.Implementations
                     IdCategory = idCategory.Value,
                 };
                 _productRepository.CreateProduct(newProductToCreate);
+                return "Creado existosamente";
             }
+            return "El usuario no tiene la categoría";
         }
 
 
-        public void DeleteProduct(string productName, int userId)
+        public bool DeleteProduct(string productName, int userId)
         {
-            var idProduct = _productRepository.GetProductByName(productName);
-            Console.WriteLine(productName);
-            if (idProduct.HasValue)
+            var idProduct = _productRepository.GetProductByName(productName, userId);
+            if (!idProduct.HasValue)
             {
-                _productRepository.DeleteProduct(idProduct.Value);
+                return false; 
             }
-        }
 
+            _productRepository.DeleteProduct(idProduct.Value);
+            return true; 
+        }
 
 
         public void UpdateProduct(UpdateProductDto updatedProduct, string productName)
@@ -288,5 +314,12 @@ namespace TP_Final_APIs.Services.Implementations
             return true;
         }
 
+        public bool CheckIfProductExists(string productName, int userId)
+        {
+            return _productRepository.CheckIfProductExists(productName, userId);
+        }
+
     }
+
+    
 }
