@@ -172,9 +172,28 @@ public class ProductController : ControllerBase
 
 
     [HttpPut]
-    public ActionResult UpdateProduct([FromBody]UpdateProductDto updatedProduct, [FromQuery]string productName)
+    public ActionResult UpdateProduct([FromBody] UpdateProductDto updatedProduct, [FromQuery] string productName)
     {
-        _productService.UpdateProduct(updatedProduct, productName);
+        if (string.IsNullOrWhiteSpace(productName))
+            return BadRequest("Debe especificar el nombre del producto");
+
+
+        var claim = User.FindFirst("sum")
+                        ?? User.FindFirst(ClaimTypes.NameIdentifier);
+
+        if (claim == null) return Unauthorized("El token no tiene id de usuario");
+
+        int userId = int.Parse(claim.Value);
+
+        string response = _productService.UpdateProduct(updatedProduct, productName, userId);
+        if (response == "El producto no existe")
+        {
+            return NotFound("El producto no fue encontrado o no pertenece al usuario");
+        }
+        else if (response == "El nombre del producto al que se quiere actualizar ya existe")
+        {
+            return BadRequest("El producto ya existe para el usuario");
+        }
         return Ok("Producto editado");
     }
 

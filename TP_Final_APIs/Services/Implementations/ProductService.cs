@@ -178,27 +178,41 @@ namespace TP_Final_APIs.Services.Implementations
         }
 
 
-        public void UpdateProduct(UpdateProductDto updatedProduct, string productName)
+        public string UpdateProduct(UpdateProductDto updatedProduct, string productName, int userId)
         {
-            var idProduct = _productRepository.GetProductByName(productName);
-            if (idProduct.HasValue)
+            var idProduct = _productRepository.GetProductByName(productName, userId);
+            if (!idProduct.HasValue)
             {
-                var productExist = _productRepository.GetProduct(idProduct.Value);
-                if (productExist != null)
-                {
-                    
-                    productExist.Name = updatedProduct.Name;
-                    productExist.Price = updatedProduct.Price;
-                    productExist.Description = updatedProduct.Description;
-                    productExist.Discount = updatedProduct.Discount;
-                    productExist.HappyHour = updatedProduct.HappyHour;
-                    productExist.Favourite = updatedProduct.Favourite;
-                    productExist.IdCategory = updatedProduct.IdCategory;
-
-                    _productRepository.UpdateProduct(productExist);
-                }
-               
+                return "El producto no existe";
             }
+
+            var productExist = _productRepository.GetProduct(idProduct.Value);
+            if (productExist == null)
+            {
+                return "El producto no existe";
+            }
+
+            
+            if (productExist.Name.Trim().ToLower() != updatedProduct.Name.Trim().ToLower())
+            {
+                var validationProduct = CheckIfProductExists(updatedProduct.Name, userId);
+                if (validationProduct)
+                {
+                    return "El nombre del producto al que se quiere actualizar ya existe";
+                }
+            }
+
+            productExist.Name = updatedProduct.Name;
+            productExist.Price = updatedProduct.Price;
+            productExist.Description = updatedProduct.Description;
+            productExist.Discount = updatedProduct.Discount;
+            productExist.HappyHour = updatedProduct.HappyHour;
+            productExist.Favourite = updatedProduct.Favourite;
+            
+
+            _productRepository.UpdateProduct(productExist);
+
+            return "Actualización exitosa";
         }
 
 
